@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import { useStore } from "react-redux";
+import { wrapper } from "../store/index";
+import { PersistGate } from "redux-persist/integration/react";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
-
-export default MyApp
+export default wrapper.withRedux(({ Component, pageProps }) => {
+  const store = useStore();
+  return (
+    <PersistGate persistor={store} loading={<Component {...pageProps} />}>
+      <Component {...pageProps} />
+    </PersistGate>
+  );
+});
