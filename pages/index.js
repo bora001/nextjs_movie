@@ -1,7 +1,8 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+export default function Home({ results }) {
+  console.log(results);
   return (
     <div>
       <Head>
@@ -12,4 +13,11 @@ export default function Home() {
       Nextjs practice
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const { results } = await (
+    await fetch("http://localhost:3000/api/movies")
+  ).json();
+  return { props: { results } };
 }
