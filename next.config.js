@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const API_KEY = process.env.API_KEY;
-console.log(API_KEY);
-const nextConfig = {
-  reactStrictMode: true,
+
+module.exports = {
   async rewrites() {
     return [
       {
@@ -11,6 +10,7 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ["image.tmdb.org"],
+  },
 };
-
-module.exports = nextConfig;

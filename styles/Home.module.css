@@ -1,0 +1,21 @@
+.movie_cnt {
+  width: 1300px;
+  margin: 0 auto;
+}
+.movie_box {
+  border: 2px solid red;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.movie_poster {
+  position: relative;
+  width: 250px;
+  height: 375px;
+}
+
+.movie_title {
+  text-align: center;
+  width: 250px;
+  padding: 10px 20px;
+}
