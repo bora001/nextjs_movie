@@ -2,6 +2,7 @@
 const API_KEY = process.env.API_KEY;
 
 module.exports = {
+  strictMode: true,
   async rewrites() {
     return [
       {

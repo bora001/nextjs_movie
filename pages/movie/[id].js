@@ -5,7 +5,7 @@ import styles from "../../styles/movie.module.css";
 import { useSelector } from "react-redux";
 export default function MovieDetail() {
   const router = useRouter();
-  const { movieList } = useSelector((state) => state.movieList);
+  const movieList = useSelector((state) => state.movieList);
   const [detail, setDetail] = useState();
   useEffect(() => {
     if (movieList) {
@@ -40,3 +40,12 @@ export default function MovieDetail() {
     </div>
   );
 }
+
+// export async function getServerSideProps(context) {
+// //   const movieList = useSelector((state) => state.movieList);
+// console.log("test", context.query.id);
+// console.log(context.store);
+// //   console.log("test", context.store);
+// const detail = {};
+// return { props: detail };
+// }
