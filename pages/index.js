@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { movieAction } from "../store/movieList/action";
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home({ results }) {
   const dispatch = useDispatch();
@@ -22,17 +23,19 @@ export default function Home({ results }) {
       </Head>
       <div className={styles.movie_box}>
         {results.map((movie) => (
-          <div key={movie.id}>
-            <div className={styles.movie_poster}>
-              <Image
-                src={movie.poster_path}
-                alt={`${movie.title} image`}
-                layout="fill"
-              />
-            </div>
+          <Link href={`/movie/${movie.id}`} key={movie.id}>
+            <div>
+              <div className={styles.movie_poster}>
+                <Image
+                  src={movie.poster_path}
+                  alt={`${movie.title} image`}
+                  layout="fill"
+                />
+              </div>
 
-            <p className={styles.movie_title}>{movie.title}</p>
-          </div>
+              <p className={styles.movie_title}>{movie.title}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>

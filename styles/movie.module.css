@@ -1,0 +1,21 @@
+.detail_cnt {
+  position: relative;
+  width: 1400px;
+  margin: 0 auto;
+  border: 2px solid red;
+  display: flex;
+}
+.img_poster {
+  position: relative;
+  width: 500px;
+  height: 750px;
+  z-index: 99;
+}
+
+.img_backdrop {
+  position: relative;
+  /* position: absolute; */
+  top: 0;
+  width: 500px;
+  height: 281px;
+}
