@@ -19,3 +19,27 @@
   width: 500px;
   height: 281px;
 }
+
+.txt_box {
+  padding: 0 40px;
+  border: 2px solid blue;
+}
+
+.cast_box {
+  border: 2px solid gold;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cast_info {
+  border: 2px solid red;
+  width: 150px;
+  text-align: center;
+  margin: 0 8px 0 0;
+}
+
+.cast_img {
+  position: relative;
+  width: 150px;
+  height: 200px;
+}
