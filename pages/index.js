@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 
 import Image from "next/image";
 import Link from "next/link";
-
+import MovieBox from "../component/Moviebox";
 export default function Home({ results }) {
   return (
     <div className={styles.movie_cnt}>
@@ -12,7 +12,8 @@ export default function Home({ results }) {
         <meta name="description" content="Nextjs practice" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.movie_box}>
+      <MovieBox results={results} />
+      {/* <div className={styles.movie_box}>
         {results.map((movie) => (
           <Link href={`/movie/${movie.id}`} key={movie.id}>
             <div>
@@ -28,12 +29,13 @@ export default function Home({ results }) {
             </div>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
+  console.log(context.req.url);
   const { results } = await (
     await fetch("http://localhost:3000/api/movies")
   ).json();

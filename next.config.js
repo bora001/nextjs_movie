@@ -10,6 +10,18 @@ module.exports = {
         destination: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`,
       },
       {
+        source: "/api/movies/top-rated",
+        destination: `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
+      },
+      {
+        source: "/api/movies/now-playing",
+        destination: `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}`,
+      },
+      {
+        source: "/api/movies/up-coming",
+        destination: `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`,
+      },
+      {
         source: "/api/genres",
         destination: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
       },
