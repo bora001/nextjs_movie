@@ -2,7 +2,6 @@
   position: relative;
   width: 1400px;
   margin: 0 auto;
-  border: 2px solid red;
   display: flex;
 }
 .img_poster {
@@ -14,7 +13,6 @@
 
 .img_backdrop {
   position: relative;
-  /* position: absolute; */
   top: 0;
   width: 500px;
   height: 281px;
@@ -22,17 +20,14 @@
 
 .txt_box {
   padding: 0 40px;
-  border: 2px solid blue;
 }
 
 .cast_box {
-  border: 2px solid gold;
   display: flex;
   flex-wrap: wrap;
 }
 
 .cast_info {
-  border: 2px solid red;
   width: 150px;
   text-align: center;
   margin: 0 8px 0 0;
@@ -40,6 +35,22 @@
 
 .cast_img {
   position: relative;
-  width: 150px;
+  width: 100%;
   height: 200px;
+}
+
+.view_cast {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+  margin: 10px;
+  border: none;
+  padding: 5px 10px;
+  background-color: rgb(223, 221, 221);
+  cursor: pointer;
+}
+
+.genres_box span {
+  margin-right: 10px;
+  color: rgb(54, 54, 54);
 }

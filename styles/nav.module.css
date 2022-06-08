@@ -1,6 +1,11 @@
 .nav {
-  border: 2px solid red;
-  background-color: red;
+  background-color: rgb(209, 207, 205);
   padding: 20px;
-  margin: 0;
+  margin: 0 auto 30px;
+}
+
+.nav a {
+  padding: 10px;
+  color: inherit;
+  text-decoration: none;
 }

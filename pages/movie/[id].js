@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/movie.module.css";
 
 export default function MovieDetail({ detail, credit }) {
-  console.log(credit, "credit");
   const [viewCast, setViewCast] = useState(false);
   return (
     <div>
+      <Head>
+        <title>Movie | {detail.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content={detail.overview} />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {detail && (
         <div className={styles.detail_cnt}>
           <div className="img_box">
@@ -26,14 +32,21 @@ export default function MovieDetail({ detail, credit }) {
           <div className={styles.txt_box}>
             <div className="movie_info">
               <h2>{detail.title}</h2>
-              {detail.genres.map((g, i) => (
-                <span key={i}>{g.name}</span>
-              ))}
+              <div className={styles.genres_box}>
+                {detail.genres.map((g, i) => (
+                  <span key={i}>{g.name}</span>
+                ))}
+              </div>
 
               <p>{detail.release_date}</p>
               <p>{detail.vote_average}</p>
               <p>{detail.overview}</p>
-              <button onClick={() => setViewCast(!viewCast)}>View Cast</button>
+              <button
+                className={styles.view_cast}
+                onClick={() => setViewCast(!viewCast)}
+              >
+                View Cast
+              </button>
             </div>
             <div className={styles.cast_box}>
               {viewCast &&

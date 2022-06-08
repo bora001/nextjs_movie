@@ -1,9 +1,6 @@
-.movie_cnt {
+.movie_box {
   width: 1300px;
   margin: 0 auto;
-}
-.movie_box {
-  border: 2px solid red;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -12,6 +9,7 @@
   position: relative;
   width: 250px;
   height: 375px;
+  cursor: pointer;
 }
 
 .movie_title {
