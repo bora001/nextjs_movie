@@ -11,22 +11,44 @@
   text-decoration: none;
   font-family: "Kdam Thmor Pro", sans-serif;
 }
-
+.nav .input_box {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 250px;
+  height: 30px;
+}
 .nav .input_box input {
+  position: absolute;
   font-family: "Kdam Thmor Pro", sans-serif;
-
   border: none;
-  padding: 5px;
+  float: right;
   background-color: rgb(51, 49, 49);
   color: #fff;
   font-weight: 200;
+  transform: translate(+100%);
+  padding: 5px 0;
+  width: 0;
+  transition: 1s;
+}
+.nav .input_box input.input_visible {
+  transition: 1s;
+  text-indent: 10px;
+  width: auto;
+  transform: translate(0%);
 }
 
 .nav .input_box button {
+  position: absolute;
+  width: 60px;
+  top: 0;
+  right: 0;
   border: none;
   padding: 5px 10px;
+
   background-color: rgb(65, 65, 66);
   color: #fff;
   cursor: pointer;
+  z-index: 9999;
   font-family: "Kdam Thmor Pro", sans-serif;
 }

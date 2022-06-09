@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "../../styles/movie.module.css";
 
 export default function MovieDetail({ detail, credit }) {
+  console.log(detail, credit);
   const [viewCast, setViewCast] = useState(false);
   return (
     <div>
@@ -20,12 +21,14 @@ export default function MovieDetail({ detail, credit }) {
               <Image
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
                 layout="fill"
+                alt={`${detail.title} poster image1`}
               />
             </div>
             <div className={styles.img_backdrop}>
               <Image
                 layout="fill"
                 src={`https://image.tmdb.org/t/p/w500${detail.backdrop_path}`}
+                alt={`${detail.title} poster image2`}
               />
             </div>
           </div>
@@ -56,6 +59,7 @@ export default function MovieDetail({ detail, credit }) {
                     <div className={styles.cast_img}>
                       <Image
                         layout="fill"
+                        alt={`${cast.name} profile image`}
                         src={
                           cast.profile_path
                             ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
@@ -76,7 +80,6 @@ export default function MovieDetail({ detail, credit }) {
 }
 
 export async function getServerSideProps(context) {
-  // //   const movieList = useSelector((state) => state.movieList);
   console.log("test", context.query.id);
   const detail = await (
     await fetch(`http://localhost:3000/api/movie/${context.query.id}`)
@@ -86,12 +89,5 @@ export async function getServerSideProps(context) {
     await fetch(`http://localhost:3000/api/movie/${context.query.id}/credit`)
   ).json();
 
-  // const { genres } = await (
-  //   await fetch("http://localhost:3000/api/genres")
-  // ).json();
-  // console.log("server");
-
-  // console.log(context.store);
-  // //   console.log("test", context.store);
   return { props: { detail, credit } };
 }

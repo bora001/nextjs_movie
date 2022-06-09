@@ -10,11 +10,13 @@ export default function MovieBox({ results }) {
         <Link href={`/movie/${movie.id}`} key={movie.id}>
           <div className={styles.movie_box}>
             <div className={styles.movie_poster}>
-              <Image
-                src={movie.poster_path}
-                alt={`${movie.title} image`}
-                layout="fill"
-              />
+              {(
+                <Image
+                  src={movie.poster_path}
+                  alt={`${movie.title} image`}
+                  layout="fill"
+                />
+              ) || <Skeleton />}
             </div>
             <p className={styles.movie_title}>{movie.title}</p>
             <p className={styles.movie_rate}>{movie.vote_average.toFixed(1)}</p>
