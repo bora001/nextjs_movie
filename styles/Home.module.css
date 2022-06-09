@@ -1,10 +1,16 @@
-.movie_box {
+.movie_cnt {
   width: 1300px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
+.movie_box {
+  position: relative;
+  /* border: 2px solid red; */
+}
+
 .movie_poster {
   position: relative;
   width: 250px;
@@ -16,6 +22,19 @@
   text-align: center;
   width: 250px;
   padding: 10px 20px;
+}
+.movie_rate {
+  position: absolute;
+  top: 345px;
+  right: 5px;
+  background-color: rgb(22, 170, 113);
+  display: inline-block;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 25px;
 }
 
 /* search */

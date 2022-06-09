@@ -29,8 +29,8 @@ export default function MovieDetail({ detail, credit }) {
               />
             </div>
           </div>
-          <div className={styles.txt_box}>
-            <div className="movie_info">
+          <div className={styles.movie_box}>
+            <div className={styles.movie_info}>
               <h2>{detail.title}</h2>
               <div className={styles.genres_box}>
                 {detail.genres.map((g, i) => (
@@ -39,7 +39,7 @@ export default function MovieDetail({ detail, credit }) {
               </div>
 
               <p>{detail.release_date}</p>
-              <p>{detail.vote_average}</p>
+              <p className={styles.movie_rate}>{detail.vote_average}</p>
               <p>{detail.overview}</p>
               <button
                 className={styles.view_cast}
