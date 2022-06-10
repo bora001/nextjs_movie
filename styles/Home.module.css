@@ -35,3 +35,7 @@
   font-family: "Kdam Thmor Pro", sans-serif;
   text-shadow: 5px 5px 10px rgb(12, 9, 9), 5px 5px 5px rgb(0, 0, 0);
 }
+
+.list_head {
+  text-align: center;
+}

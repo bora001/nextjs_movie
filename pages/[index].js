@@ -12,6 +12,7 @@ export default function Home({ results, params }) {
         <meta name="description" content={`${params} movie list`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <h1 className={styles.list_head}>{params} movie</h1>
       <MovieBox results={results} />
     </div>
   );
@@ -20,7 +21,7 @@ export default function Home({ results, params }) {
 export async function getServerSideProps(context) {
   const params = context.params.index;
   const { results } = await axios
-    .get(`http://localhost:3000/api/movies/${params}`)
+    .get(`https://nextjs-movie-ten.vercel.app/api/movies/${params}`)
     .then((res) => res.data);
 
   results.map(

@@ -2,13 +2,15 @@ import SliderMovieBox from "../component/SliderMoviebox";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Head from "next/head";
+
 export default function Home({ results, genres, date }) {
   const [movieList, setMovieList] = useState([]);
   const [keyword, setkeyword] = useState("");
 
   useEffect(() => {
     setMovieList(results);
-  }, []);
+  }, [results]);
 
   useEffect(() => {
     setAll();
@@ -32,8 +34,13 @@ export default function Home({ results, genres, date }) {
 
   return (
     <div className={styles.main_box}>
+      <Head>
+        <title>Nextjs_movie Project</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content={`next.js movie project`} />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <h2 className={styles.title_txt}>Popular {keyword} Movies</h2>
-
       <SliderMovieBox results={movieList} />
       <div className={styles.btn_box}>
         {genres && <button onClick={setAll}>All</button>}
@@ -52,11 +59,11 @@ export async function getServerSideProps(context) {
   const date = +new Date();
 
   const { results } = await axios
-    .get(`http://localhost:3000/api/movies/popular`)
+    .get(`https://nextjs-movie-ten.vercel.app/api/movies/popular`)
     .then((res) => res.data);
 
   const { genres } = await axios
-    .get(`http://localhost:3000/api/genres`)
+    .get(`https://nextjs-movie-ten.vercel.app/api/genres`)
     .then((res) => res.data);
 
   return { props: { results, genres, date } };

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import MovieBox from "../../component/Moviebox";
+import axios from "axios";
 
 export default function Home({ results, params }) {
   return (
@@ -11,7 +12,7 @@ export default function Home({ results, params }) {
         <meta name="description" content={`search movie by ${params}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className={styles.search_head}>Results of '{params}'</h1>
+      <h1 className={styles.list_head}>Results of &lsquo;{params}&rsquo;</h1>
       <MovieBox results={results} />
     </div>
   );

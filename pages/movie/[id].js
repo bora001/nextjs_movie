@@ -115,7 +115,7 @@ export default function MovieDetail({ detail, credit }) {
 
 export async function getServerSideProps(context) {
   const detail = await axios
-    .get(`http://localhost:3000/api/movie/${context.query.id}`)
+    .get(`https://nextjs-movie-ten.vercel.app/api/movie/${context.query.id}`)
     .then((res) => res.data);
 
   const video = await axios
@@ -127,7 +127,9 @@ export async function getServerSideProps(context) {
   detail.trailer = trailer[trailer.length - 1];
 
   const credit = await axios
-    .get(`http://localhost:3000/api/movie/${context.query.id}/credit`)
+    .get(
+      `https://nextjs-movie-ten.vercel.app/api/movie/${context.query.id}/credit`
+    )
     .then((res) => res.data);
 
   return { props: { detail, credit } };
