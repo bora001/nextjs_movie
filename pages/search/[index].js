@@ -20,12 +20,12 @@ export default function Home({ results, params }) {
 export async function getServerSideProps(context) {
   const params = context.query.query;
 
-  console.log(params);
-  const { results } = await (
-    await fetch(
+  const { results } = await axios
+    .get(
       `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&query=${params}`
     )
-  ).json();
+    .then((res) => res.data);
+
   results.map(
     (item) =>
       (item.poster_path = `https://image.tmdb.org/t/p/w500${item.poster_path}`)

@@ -3,6 +3,8 @@
   width: 1400px;
   margin: 0 auto;
   display: flex;
+  font-family: "Kdam Thmor Pro", sans-serif;
+  letter-spacing: 1px;
 }
 .img_poster {
   position: relative;
@@ -30,7 +32,7 @@
   right: 0;
   width: 50px;
   height: 50px;
-  line-height: 45px;
+  line-height: 50px;
   font-size: 22px;
   text-align: center;
   background-color: rgb(22, 170, 113);
@@ -66,4 +68,19 @@
 
 .genres_box span {
   margin-right: 10px;
+}
+
+.desc_txt {
+  font-family: "ubentu", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.cast_act {
+  font-family: "ubentu", sans-serif;
+  line-height: 1;
+}
+
+.cast_name {
+  font-family: "ubentu", sans-serif;
+  font-size: 14px;
 }

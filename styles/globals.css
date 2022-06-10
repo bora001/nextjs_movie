@@ -19,3 +19,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgba(22, 170, 113, 0.534) !important;
+  font-weight: 700;
+}

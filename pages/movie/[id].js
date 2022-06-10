@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/movie.module.css";
+import axios from "axios";
 
 export default function MovieDetail({ detail, credit }) {
-  console.log(detail, credit);
   const [viewCast, setViewCast] = useState(false);
   return (
     <div>
@@ -43,7 +43,7 @@ export default function MovieDetail({ detail, credit }) {
 
               <p>{detail.release_date}</p>
               <p className={styles.movie_rate}>{detail.vote_average}</p>
-              <p>{detail.overview}</p>
+              <p className={styles.desc_txt}>{detail.overview}</p>
               <button
                 className={styles.view_cast}
                 onClick={() => setViewCast(!viewCast)}
@@ -67,8 +67,8 @@ export default function MovieDetail({ detail, credit }) {
                         }
                       />
                     </div>
-                    <p>{cast.character}</p>
-                    <p>({cast.name})</p>
+                    <p className={styles.cast_act}>{cast.character}</p>
+                    <p className={styles.cast_name}>({cast.name})</p>
                   </div>
                 ))}
             </div>
@@ -80,14 +80,13 @@ export default function MovieDetail({ detail, credit }) {
 }
 
 export async function getServerSideProps(context) {
-  console.log("test", context.query.id);
-  const detail = await (
-    await fetch(`http://localhost:3000/api/movie/${context.query.id}`)
-  ).json();
+  const detail = await axios
+    .get(`http://localhost:3000/api/movie/${context.query.id}`)
+    .then((res) => res.data);
 
-  const credit = await (
-    await fetch(`http://localhost:3000/api/movie/${context.query.id}/credit`)
-  ).json();
+  const credit = await axios
+    .get(`http://localhost:3000/api/movie/${context.query.id}/credit`)
+    .then((res) => res.data);
 
   return { props: { detail, credit } };
 }

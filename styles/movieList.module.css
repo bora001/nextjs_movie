@@ -1,0 +1,50 @@
+.movie_cnt {
+  width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.movie_box {
+  position: relative;
+  /* border: 2px solid red; */
+}
+
+.movie_poster {
+  position: relative;
+  width: 250px;
+  height: 375px;
+  cursor: pointer;
+  border: 3px solid transparent;
+}
+.movie_poster:hover {
+  border: 3px solid rgb(29, 201, 135);
+  box-shadow: 10px 10px 15px #000;
+}
+.movie_title {
+  text-align: center;
+  width: 250px;
+  padding: 10px 20px;
+  font-family: "Kdam Thmor Pro", sans-serif;
+}
+.movie_rate {
+  position: absolute;
+  top: 345px;
+  right: 5px;
+  background-color: rgb(22, 170, 113);
+  display: inline-block;
+  font-size: 14px;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 25px;
+  font-family: "Kdam Thmor Pro", sans-serif;
+}
+
+/* search */
+.search_head {
+  margin: 0 auto 50px;
+  text-align: center;
+}
