@@ -3,9 +3,13 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/movie.module.css";
 import axios from "axios";
+import ReactPlayer from "react-player";
+import Modal from "../../component/Modal";
 
 export default function MovieDetail({ detail, credit }) {
   const [viewCast, setViewCast] = useState(false);
+  const [viewTrailer, setViewTrailer] = useState(false);
+
   return (
     <div>
       <Head>
@@ -44,12 +48,23 @@ export default function MovieDetail({ detail, credit }) {
               <p>{detail.release_date}</p>
               <p className={styles.movie_rate}>{detail.vote_average}</p>
               <p className={styles.desc_txt}>{detail.overview}</p>
-              <button
-                className={styles.view_cast}
-                onClick={() => setViewCast(!viewCast)}
-              >
-                View Cast
-              </button>
+              <div className={styles.btn_box}>
+                <button
+                  className={styles.view_cast}
+                  onClick={() => {
+                    setViewTrailer(!viewTrailer);
+                    document.body.style.overflow = "hidden";
+                  }}
+                >
+                  View Trailer
+                </button>
+                <button
+                  className={styles.view_cast}
+                  onClick={() => setViewCast(!viewCast)}
+                >
+                  View Cast
+                </button>
+              </div>
             </div>
             <div className={styles.cast_box}>
               {viewCast &&
@@ -75,6 +90,25 @@ export default function MovieDetail({ detail, credit }) {
           </div>
         </div>
       )}
+      {viewTrailer && (
+        <Modal>
+          <ReactPlayer
+            className={styles.youtube_edit}
+            url={`https://www.youtube.com/watch?v=${detail.trailer.key}`}
+            playing={true}
+            controls={false}
+          />
+          <button
+            className={styles.youtube_close}
+            onClick={() => {
+              setViewTrailer(!viewTrailer);
+              document.body.style.overflow = "unset";
+            }}
+          >
+            Close
+          </button>
+        </Modal>
+      )}
     </div>
   );
 }
@@ -83,6 +117,14 @@ export async function getServerSideProps(context) {
   const detail = await axios
     .get(`http://localhost:3000/api/movie/${context.query.id}`)
     .then((res) => res.data);
+
+  const video = await axios
+    .get(
+      `https://api.themoviedb.org/3/movie/${context.query.id}/videos?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&language=en-US`
+    )
+    .then((res) => res.data);
+  const trailer = video.results.filter((x) => (x.name = "Officail Trailer"));
+  detail.trailer = trailer[trailer.length - 1];
 
   const credit = await axios
     .get(`http://localhost:3000/api/movie/${context.query.id}/credit`)
