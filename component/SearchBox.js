@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
-import styles from "../styles/nav.module.css";
 import Router from "next/router";
+import styles from "../styles/nav.module.css";
 
 export default function SearchBox() {
   const inputValue = useRef();
@@ -35,7 +35,6 @@ export default function SearchBox() {
     <form className={styles.input_box} onSubmit={searchMovie}>
       <input
         type="text"
-        // className={styles.input_visible}
         className={inputVisible ? `${styles.input_visible}` : ""}
         ref={inputValue}
         onMouseLeave={hideInput}

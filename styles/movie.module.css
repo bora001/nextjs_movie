@@ -26,6 +26,15 @@
 .movie_info {
   position: relative;
 }
+
+.movie_info h2 {
+  font-size: 26px;
+  letter-spacing: 2.5px;
+}
+.movie_info p {
+  font-size: 16px;
+}
+
 .movie_info .movie_rate {
   position: absolute;
   top: -30px;
@@ -58,6 +67,7 @@
   justify-content: center;
   margin: 30px 0;
 }
+
 .view_cast {
   position: relative;
   margin: 5px;
@@ -66,25 +76,38 @@
   color: #fff;
   background-color: rgb(70, 68, 68);
   cursor: pointer;
+  font-size: 12px;
+  font-family: "Kdam Thmor Pro", sans-serif;
+  letter-spacing: 1px;
+}
+
+.genres_box {
+  margin-bottom: 60px;
 }
 
 .genres_box span {
   margin-right: 10px;
+  font-size: 16px;
+  border: 1px solid rgb(151, 146, 146);
+  padding: 5px 10px;
 }
 
 .desc_txt {
   font-family: "ubentu", sans-serif;
   letter-spacing: 0.5px;
 }
-
+.cast_txt {
+  font-size: 14px;
+}
 .cast_act {
   font-family: "ubentu", sans-serif;
   line-height: 1;
+  font-size: 14px;
 }
 
 .cast_name {
   font-family: "ubentu", sans-serif;
-  font-size: 14px;
+  font-size: 12px;
 }
 /*  youtube*/
 .youtube_edit {
@@ -101,4 +124,241 @@
   color: #fff;
   background-color: rgb(70, 68, 68);
   cursor: pointer;
+}
+
+@media screen and (min-width: 769px) and (max-width: 1440px) {
+  .detail_cnt {
+    width: 97.2222vw;
+    margin: 0 auto;
+
+    font-family: "Kdam Thmor Pro", sans-serif;
+    letter-spacing: 0.0694vw;
+  }
+  .img_poster {
+    width: 34.7222vw;
+    height: 52.0833vw;
+  }
+
+  .img_backdrop {
+    top: 0;
+    width: 34.7222vw;
+    height: 19.5139vw;
+  }
+
+  .movie_box {
+    padding: 2.0833vw 2.7778vw 0;
+  }
+  .movie_info {
+  }
+
+  .movie_info h2 {
+    font-size: 1.8056vw;
+    letter-spacing: 0.1736vw;
+  }
+  .movie_info p {
+    font-size: 1.1111vw;
+  }
+
+  .movie_info .movie_rate {
+    top: -2.0833vw;
+    right: 0;
+    width: 3.4722vw;
+    height: 3.4722vw;
+    line-height: 3.4722vw;
+    font-size: 1.5278vw;
+
+    background-color: rgb(22, 170, 113);
+  }
+  .cast_box {
+    flex-wrap: wrap;
+  }
+
+  .cast_info {
+    width: 10.4167vw;
+
+    margin: 0 0.5556vw 0 0;
+  }
+
+  .cast_img {
+    width: 100%;
+    height: 13.8889vw;
+  }
+  .btn_box {
+    margin: 2.0833vw 0;
+  }
+
+  .view_cast {
+    margin: 0.3472vw;
+    border: none;
+    padding: 0.3472vw 0.6944vw;
+
+    background-color: rgb(70, 68, 68);
+    cursor: pointer;
+    font-size: 0.8333vw;
+    font-family: "Kdam Thmor Pro", sans-serif;
+    letter-spacing: 0.0694vw;
+  }
+
+  .genres_box {
+    margin-bottom: 4.1667vw;
+  }
+
+  .genres_box span {
+    margin-right: 0.6944vw;
+    font-size: 1.1111vw;
+    border: 0.0694vw solid rgb(151, 146, 146);
+    padding: 0.3472vw 0.6944vw;
+  }
+
+  .desc_txt {
+    font-family: "ubentu", sans-serif;
+    letter-spacing: 0.0347vw;
+  }
+  .cast_txt {
+    font-size: 0.9722vw;
+  }
+  .cast_act {
+    font-family: "ubentu", sans-serif;
+    line-height: 1;
+    font-size: 0.9722vw;
+  }
+
+  .cast_name {
+    font-family: "ubentu", sans-serif;
+    font-size: 0.8333vw;
+  }
+  /*  youtube*/
+  .youtube_edit {
+    pointer-events: none;
+  }
+  .youtube_close {
+    cursor: pointer;
+
+    left: 50%;
+    transform: translate(-50%);
+    margin: 0.6944vw;
+    border: none;
+    padding: 0.3472vw 0.6944vw;
+
+    background-color: rgb(70, 68, 68);
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .detail_cnt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    margin: 0 auto;
+    font-family: "Kdam Thmor Pro", sans-serif;
+    letter-spacing: 0.1302vw;
+  }
+  .img_poster {
+    width: 65.1042vw;
+    height: 97.6563vw;
+  }
+
+  .img_backdrop {
+    display: none;
+  }
+
+  .movie_box {
+    padding: 3.9063vw 5.2083vw 0;
+  }
+
+  .movie_info h2 {
+    font-size: 3.3854vw;
+    letter-spacing: 0.3255vw;
+  }
+  .movie_info p {
+    font-size: 2.0833vw;
+  }
+
+  .movie_info .movie_rate {
+    top: -3.9063vw;
+    right: 0;
+    width: 6.5104vw;
+    height: 6.5104vw;
+    line-height: 6.5104vw;
+    font-size: 2.8646vw;
+
+    background-color: rgb(22, 170, 113);
+  }
+  .cast_box {
+    flex-wrap: wrap;
+  }
+
+  .cast_info {
+    width: 19.5313vw;
+
+    margin: 0 1.0417vw 0 0;
+  }
+
+  .cast_img {
+    width: 100%;
+    height: 26.0417vw;
+  }
+  .btn_box {
+    margin: 3.9063vw 0;
+  }
+
+  .view_cast {
+    margin: 0.651vw;
+    border: none;
+    padding: 0.651vw 1.3021vw;
+    background-color: rgb(70, 68, 68);
+    cursor: pointer;
+    font-size: 1.5625vw;
+    font-family: "Kdam Thmor Pro", sans-serif;
+    letter-spacing: 0.1302vw;
+  }
+
+  .genres_box {
+    margin-bottom: 7.8125vw;
+  }
+
+  .genres_box span {
+    margin-right: 1.3021vw;
+    font-size: 2.0833vw;
+    border: 0.1302vw solid rgb(151, 146, 146);
+    padding: 0.651vw 1.3021vw;
+  }
+
+  .desc_txt {
+    font-family: "ubentu", sans-serif;
+    letter-spacing: 0.0651vw;
+  }
+  .cast_txt {
+    font-size: 1.8229vw;
+  }
+  .cast_act {
+    font-family: "ubentu", sans-serif;
+    line-height: 1;
+    font-size: 1.8229vw;
+  }
+
+  .cast_name {
+    font-family: "ubentu", sans-serif;
+    font-size: 1.5625vw;
+  }
+  /*  youtube*/
+  .youtube_edit {
+    width: 100vw !important;
+    /* width: 83.3333vw !important; */
+    /* height: 46.875vw !important; */
+    pointer-events: all;
+  }
+  .youtube_close {
+    cursor: pointer;
+
+    left: 50%;
+    transform: translate(-50%);
+    margin: 1.3021vw;
+    border: none;
+    padding: 0.651vw 1.3021vw;
+    background-color: rgb(70, 68, 68);
+    cursor: pointer;
+  }
 }

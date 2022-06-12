@@ -8,6 +8,7 @@
 
 .nav .nav_menu a {
   padding: 10px;
+  font-size: 16px;
   text-decoration: none;
   font-family: "Kdam Thmor Pro", sans-serif;
 }
@@ -15,6 +16,7 @@
   display: block;
   position: relative;
   overflow: hidden;
+  font-size: 16px;
   width: 250px;
   height: 30px;
 }
@@ -51,4 +53,73 @@
   cursor: pointer;
   z-index: 9999;
   font-family: "Kdam Thmor Pro", sans-serif;
+}
+
+@media screen and (min-width: 769px) and (max-width: 1440px) {
+  .nav {
+    padding: 1.3889vw;
+    margin: 0 auto 2.0833vw;
+  }
+
+  .nav .nav_menu a {
+    padding: 0.6944vw;
+    font-size: 1.1111vw;
+  }
+  .nav .input_box {
+    font-size: 1.1111vw;
+    width: 17.3611vw;
+    height: 2.0833vw;
+  }
+  .nav .input_box input {
+    padding: 0.3472vw 0;
+    font-size: 1.1111vw;
+  }
+  .nav .input_box input.input_visible {
+    text-indent: 0.6944vw;
+  }
+
+  .nav .input_box button {
+    width: 4.7vw;
+    font-size: 1vw;
+    padding: 0.3472vw 0.6944vw;
+  }
+}
+@media screen and (max-width: 768px) {
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(22, 21, 21);
+    padding: 2.6042vw;
+    margin: 0 auto 3.9063vw;
+  }
+
+  .nav .nav_menu a {
+    padding: 1.3021vw;
+    font-size: 2.0833vw;
+  }
+  .nav .input_box {
+    display: flex;
+    width: 30vw;
+    height: 3.9063vw;
+    margin: 2vw auto 0;
+  }
+  .nav .input_box input {
+    position: relative;
+    padding: 0.651vw 0;
+    font-size: 2vw;
+    width: 22vw !important;
+    height: 3.9063vw;
+    transform: none;
+    text-indent: 1vw;
+  }
+
+  .nav .input_box button {
+    position: relative;
+    width: 8vw;
+    height: 3.9063vw;
+    padding: 0.651vw 1.3021vw;
+    font-size: 1.6vw;
+    z-index: 9999;
+  }
 }

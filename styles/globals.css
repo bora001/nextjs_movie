@@ -19,21 +19,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-/* swiper */
-.swiper-button-next,
-.swiper-button-prev {
-  color: rgba(22, 170, 113, 0.534) !important;
-  font-weight: 700;
-}
-
-/* youtube */
-.overlay-banner {
-  display: none;
-  position: absolute;
-  width: 560px;
-  height: 58px;
-  background: transparent;
-  top: 0px;
-  left: 0;
-}

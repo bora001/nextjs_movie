@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Head from "next/head";
 import SliderMovieBox from "../component/SliderMoviebox";
 import styles from "../styles/Home.module.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import Head from "next/head";
 
 export default function Home({ results, genres, date }) {
   const [movieList, setMovieList] = useState([]);
@@ -55,7 +55,7 @@ export default function Home({ results, genres, date }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const date = +new Date();
 
   const { results } = await axios

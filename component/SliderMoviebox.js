@@ -1,43 +1,82 @@
-import styles from "../styles/Slider.module.css";
+import { useState, useRef } from "react";
+import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
+import { EffectCoverflow } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useState } from "react";
-import { EffectCoverflow, Navigation } from "swiper";
+import styles from "../styles/Slider.module.css";
 import "swiper/css/effect-coverflow";
-import "swiper/css/navigation";
 import "swiper/css";
 
 export default function MovieBox({ results }) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const swiperRef = useRef();
   return (
-    <>
+    <div className={styles.swiper_box}>
       <Swiper
         className={styles.movie_cnt}
-        spaceBetween={50}
-        slidesPerView={5}
+        spaceBetween={0}
+        slidesPerView={3}
         effect={"coverflow"}
         centeredSlides={true}
-        initialSlide={9}
+        initialSlide={3}
         coverflowEffect={{
-          rotate: 0,
-          stretch: 10,
-          depth: 150,
-          modifier: 3,
           slideShadows: false,
         }}
-        navigation={true}
-        modules={[EffectCoverflow, Navigation]}
+        modules={[EffectCoverflow]}
         onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          console.log(swiper.activeIndex);
+        }}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 24,
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 35,
+              depth: 60,
+              modifier: 2,
+              slideShadows: false,
+            },
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 24,
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 20,
+              depth: 60,
+              modifier: 5,
+              slideShadows: false,
+            },
+          },
+
+          1440: {
+            slidesPerView: 3,
+            spaceBetween: 48,
+            coverflowEffect: {
+              rotate: 0,
+              stretch: 20,
+              depth: 60,
+              modifier: 5,
+              slideShadows: false,
+            },
+          },
+        }}
       >
         {results.map((movie, i) => (
-          <SwiperSlide
-            key={movie.id}
-            className={i == activeSlide ? styles.active_slide : ""}
-          >
+          <SwiperSlide key={movie.id}>
             <Link href={`/movie/${movie.id}`}>
               <div className={styles.movie_box}>
-                <div className={styles.movie_poster}>
+                <div
+                  className={
+                    i == activeSlide
+                      ? styles.movie_poster_active
+                      : styles.movie_poster
+                  }
+                >
                   <Image
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={`${movie.title} image`}
@@ -57,6 +96,16 @@ export default function MovieBox({ results }) {
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+      <div className={styles.swiper_arrow}>
+        <MdNavigateBefore
+          className={styles.swiper_prev}
+          onClick={() => swiperRef.current.slidePrev()}
+        />
+        <MdNavigateNext
+          className={styles.swiper_next}
+          onClick={() => swiperRef.current.slideNext()}
+        />
+      </div>
+    </div>
   );
 }

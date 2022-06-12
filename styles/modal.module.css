@@ -11,21 +11,3 @@
   z-index: 999999;
   overflow: hidden;
 }
-
-/* .modal_box {
-  position: relative;
-  background-color: #fff;
-  padding: 50px;
-  border-radius: 25px;
-  overflow: hidden;
-} */
-
-@media screen and (max-width: 768px) {
-  .modal_box {
-    padding: 6.5104vw;
-    border-radius: 3.2552vw;
-  }
-  .modal_box::before {
-    height: 5.2083vw;
-  }
-}

@@ -1,7 +1,8 @@
 import Head from "next/head";
-import styles from "../../styles/Home.module.css";
 import MovieBox from "../../component/Moviebox";
+import { MdManageSearch } from "react-icons/md";
 import axios from "axios";
+import styles from "../../styles/Home.module.css";
 
 export default function Home({ results, params }) {
   return (
@@ -13,7 +14,14 @@ export default function Home({ results, params }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className={styles.list_head}>Results of &lsquo;{params}&rsquo;</h1>
-      <MovieBox results={results} />
+      {results.length ? (
+        <MovieBox results={results} />
+      ) : (
+        <div className={styles.not_found}>
+          <MdManageSearch className={styles.icon} />
+          <p>No result found</p>
+        </div>
+      )}
     </div>
   );
 }

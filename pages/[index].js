@@ -1,7 +1,7 @@
 import Head from "next/head";
-import styles from "../styles/movieList.module.css";
 import MovieBox from "../component/Moviebox";
 import axios from "axios";
+import styles from "../styles/movieList.module.css";
 
 export default function Home({ results, params }) {
   return (

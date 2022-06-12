@@ -1,6 +1,6 @@
-import styles from "../styles/movieList.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "../styles/movieList.module.css";
 
 export default function MovieBox({ results }) {
   return (

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../../styles/movie.module.css";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Modal from "../../component/Modal";
+import styles from "../../styles/movie.module.css";
 
 export default function MovieDetail({ detail, credit }) {
   const [viewCast, setViewCast] = useState(false);
@@ -82,8 +82,10 @@ export default function MovieDetail({ detail, credit }) {
                         }
                       />
                     </div>
-                    <p className={styles.cast_act}>{cast.character}</p>
-                    <p className={styles.cast_name}>({cast.name})</p>
+                    <div className={styles.cast_txt}>
+                      <p className={styles.cast_act}>{cast.character}</p>
+                      <p className={styles.cast_name}>({cast.name})</p>
+                    </div>
                   </div>
                 ))}
             </div>
