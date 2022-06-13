@@ -13,6 +13,7 @@ export default function MovieBox({ results }) {
                 src={movie.poster_path}
                 alt={`${movie.title} image`}
                 layout="fill"
+                objectFit="contain"
               />
             </div>
             <p className={styles.movie_title}>{movie.title}</p>

@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import Router from "next/router";
 import styles from "../styles/nav.module.css";
+import { MdOutlineSearch } from "react-icons/md";
 
 export default function SearchBox() {
   const inputValue = useRef();
@@ -38,8 +39,13 @@ export default function SearchBox() {
         className={inputVisible ? `${styles.input_visible}` : ""}
         ref={inputValue}
         onMouseLeave={hideInput}
+        id="search_data"
       />
-      <button onMouseOver={showInput}>search</button>
+      <label htmlFor="search_data">
+        <button aria-label="search button">
+          <MdOutlineSearch color="white" onMouseOver={showInput} />
+        </button>
+      </label>
     </form>
   );
 }

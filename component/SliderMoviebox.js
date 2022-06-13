@@ -27,7 +27,6 @@ export default function MovieBox({ results }) {
         onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
-          console.log(swiper.activeIndex);
         }}
         breakpoints={{
           768: {
@@ -81,6 +80,7 @@ export default function MovieBox({ results }) {
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={`${movie.title} image`}
                     layout="fill"
+                    objectFit="contain"
                   />
                 </div>
                 {i == activeSlide && (

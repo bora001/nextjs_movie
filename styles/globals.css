@@ -19,3 +19,11 @@ a {
 * {
   box-sizing: border-box;
 }
+.mo_br {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .mo_br {
+    display: block;
+  }
+}
