@@ -2,18 +2,23 @@ import Head from "next/head";
 import MovieBox from "../component/Moviebox";
 import axios from "axios";
 import styles from "../styles/movieList.module.css";
+import InfiniteMovieBox from "../component/InfiniteMovieBox";
 
 export default function Home({ results, params }) {
+  const title = params
+    .replace("_", " ")
+    .replace(params[0], params[0].toUpperCase());
   return (
     <div className={styles.movie_cnt}>
       <Head>
-        <title>nextjs_practice | {`${params} movie`}</title>
+        <title>nextjs_practice | {`${title} movie`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content={`${params} movie list`} />
+        <meta name="description" content={`${title} movie list`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className={styles.list_head}>{params} movie</h1>
+      <h1 className={styles.list_head}>{title} movie</h1>
       <MovieBox results={results} />
+      <InfiniteMovieBox />
     </div>
   );
 }

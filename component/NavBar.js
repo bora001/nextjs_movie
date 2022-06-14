@@ -9,9 +9,9 @@ export default function NavBar() {
         <SearchBox />
         <hr className="mo_br" />
         <Link href="/popular">Popular Movies</Link>
-        <Link href="/top-rated">Top Rated Movies</Link>
-        <Link href="/now-playing">Now Playing</Link>
-        <Link href="/up-coming">Upcoming</Link>
+        <Link href="/top_rated">Top Rated Movies</Link>
+        <Link href="/now_playing">Now Playing</Link>
+        <Link href="/upcoming">Upcoming</Link>
       </div>
       {/* <SearchBox /> */}
     </div>

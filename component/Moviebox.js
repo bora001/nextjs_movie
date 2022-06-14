@@ -5,8 +5,8 @@ import styles from "../styles/movieList.module.css";
 export default function MovieBox({ results }) {
   return (
     <div className={styles.movie_cnt}>
-      {results.map((movie) => (
-        <Link href={`/movie/${movie.id}`} key={movie.id}>
+      {results.map((movie, i) => (
+        <Link href={`/movie/${movie.id}`} key={movie.id + new Date() / 1 + i}>
           <div className={styles.movie_box}>
             <div className={styles.movie_poster}>
               <Image

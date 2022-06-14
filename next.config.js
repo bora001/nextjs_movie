@@ -6,24 +6,20 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: "/api/movies/popular",
-        destination: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`,
+        source: "/api/movies/:page",
+        destination: `https://api.themoviedb.org/3/movie/:page?api_key=${API_KEY}`,
       },
       {
-        source: "/api/movies/top-rated",
-        destination: `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
-      },
-      {
-        source: "/api/movies/now-playing",
-        destination: `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}`,
-      },
-      {
-        source: "/api/movies/up-coming",
-        destination: `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`,
+        source: "/api/movies/:pages/:page",
+        destination: `https://api.themoviedb.org/3/movie/:pages?api_key=${API_KEY}&page=:page`,
       },
       {
         source: "/api/genres",
         destination: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
+      },
+      {
+        source: "/api/genres/:genreId",
+        destination: `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=:genreId`,
       },
       {
         source: "/api/movie/:id",

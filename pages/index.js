@@ -19,9 +19,7 @@ export default function Home({ results, genres, date }) {
   const setGenre = async (e) => {
     const query = +e.target.value;
     const { results } = await axios
-      .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&with_genres=${query}`
-      )
+      .get(`https://nextjs-movie-ten.vercel.app/api/genres/${query}`)
       .then((res) => res.data);
     setMovieList(() => results);
     setkeyword(e.target.innerText);
