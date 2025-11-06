@@ -1,12 +1,19 @@
 import MovieDetailClient from "./MovieDetailClient";
 import axios from "axios";
+import { MovieDetail, VideoResponse, Credit } from "@/types/movie";
 
-export async function generateMetadata({ params }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export async function generateMetadata({ params }: PageProps) {
   const API_KEY = process.env.API_KEY;
   const movieId = params.id;
 
   try {
-    const response = await axios.get(
+    const response = await axios.get<MovieDetail>(
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
     );
     const detail = response.data;
@@ -21,38 +28,37 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function MovieDetailPage({ params }) {
+export default async function MovieDetailPage({ params }: PageProps) {
   const API_KEY = process.env.API_KEY;
   const movieId = params.id;
 
+  let detail: MovieDetail | null = null;
+  let credit: Credit | null = null;
+
   try {
     const [detailRes, videoRes, creditRes] = await Promise.all([
-      axios.get(
+      axios.get<MovieDetail>(
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
       ),
-      axios.get(
+      axios.get<VideoResponse>(
         `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
       ),
-      axios.get(
+      axios.get<Credit>(
         `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`
       ),
     ]);
 
-    const detail = detailRes.data;
+    detail = detailRes.data;
     const video = videoRes.data;
-    const credit = creditRes.data;
+    credit = creditRes.data;
 
     const trailer = video.results.filter((x) => x.name === "Official Trailer");
-    detail.trailer = trailer.length > 0 ? trailer[trailer.length - 1] : null;
-
-    return <MovieDetailClient detail={detail} credit={credit} />;
+    if (detail && trailer.length > 0) {
+      detail.trailer = trailer[trailer.length - 1];
+    }
   } catch (error) {
     console.error("Error fetching movie details:", error);
-    return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
-        <h1>Movie not found</h1>
-        <p>The movie you are looking for does not exist.</p>
-      </div>
-    );
   }
+
+  return <MovieDetailClient detail={detail} credit={credit} />;
 }

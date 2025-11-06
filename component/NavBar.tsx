@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SearchBox from "./SearchBox";
 import styles from "../styles/nav.module.css";
+
 export default function NavBar() {
   return (
     <div className={styles.nav}>
@@ -13,7 +14,6 @@ export default function NavBar() {
         <Link href="/now_playing">Now Playing</Link>
         <Link href="/upcoming">Upcoming</Link>
       </div>
-      {/* <SearchBox /> */}
     </div>
   );
 }

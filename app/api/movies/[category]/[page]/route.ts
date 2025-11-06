@@ -1,12 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import { MovieListResponse } from "@/types/movie";
 
-export async function GET(request, { params }) {
+interface RouteParams {
+  params: {
+    category: string;
+    page: string;
+  };
+}
+
+export async function GET(request: NextRequest, { params }: RouteParams) {
   const API_KEY = process.env.API_KEY;
   const { category, page } = params;
 
   try {
-    const response = await axios.get(
+    const response = await axios.get<MovieListResponse>(
       `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${page}`
     );
 

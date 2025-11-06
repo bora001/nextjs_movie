@@ -1,28 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import axios from "axios";
 import SliderMovieBox from "../component/SliderMovieBox";
 import styles from "../styles/Home.module.css";
+import { Movie, Genre, MovieListResponse } from "@/types/movie";
 
-export default function HomeClient({ initialResults, initialGenres }) {
-  const [movieList, setMovieList] = useState(initialResults || []);
-  const [keyword, setKeyword] = useState("");
-  const [genres] = useState(initialGenres || []);
+interface HomeClientProps {
+  initialResults: Movie[];
+  initialGenres: Genre[];
+}
+
+export default function HomeClient({
+  initialResults,
+  initialGenres,
+}: HomeClientProps) {
+  const [movieList, setMovieList] = useState<Movie[]>(initialResults || []);
+  const [keyword, setKeyword] = useState<string>("");
+  const [genres] = useState<Genre[]>(initialGenres || []);
 
   useEffect(() => {
     setMovieList(initialResults || []);
     setKeyword("");
   }, [initialResults]);
 
-  const setGenre = async (e) => {
+  const setGenre = async (e: MouseEvent<HTMLButtonElement>) => {
     try {
-      const query = +e.target.value;
-      const { results } = await axios
-        .get(`/api/genres/${query}`)
-        .then((res) => res.data);
+      const query = Number(e.currentTarget.value);
+      const response = await axios.get<MovieListResponse>(
+        `/api/genres/${query}`
+      );
+      const { results } = response.data;
       setMovieList(results);
-      setKeyword(e.target.innerText);
+      setKeyword(e.currentTarget.innerText);
     } catch (error) {
       console.error("Error fetching genre movies:", error);
     }

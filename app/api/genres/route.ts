@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { GenreResponse } from "@/types/movie";
 
 export async function GET() {
   const API_KEY = process.env.API_KEY;
 
   try {
-    const response = await axios.get(
+    const response = await axios.get<GenreResponse>(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
     );
 

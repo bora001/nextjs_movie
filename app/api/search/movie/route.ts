@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import { MovieListResponse } from "@/types/movie";
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   const API_KEY = process.env.API_KEY;
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query");
@@ -14,7 +15,7 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axios.get(
+    const response = await axios.get<MovieListResponse>(
       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
         query
       )}`

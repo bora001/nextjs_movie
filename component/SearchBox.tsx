@@ -1,35 +1,37 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/nav.module.css";
 import { MdOutlineSearch } from "react-icons/md";
 
 export default function SearchBox() {
   const router = useRouter();
-  const inputValue = useRef();
-  const [inputVisible, setInputVisible] = useState(false);
+  const inputValue = useRef<HTMLInputElement>(null);
+  const [inputVisible, setInputVisible] = useState<boolean>(false);
 
-  const searchMovie = async (e) => {
+  const searchMovie = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const query = inputValue.current.value;
+    const query = inputValue.current?.value;
 
-    if (query.length > 0) {
+    if (query && query.length > 0) {
       router.push(`/search/movie?query=${encodeURIComponent(query)}`);
-      inputValue.current.value = "";
+      if (inputValue.current) {
+        inputValue.current.value = "";
+      }
     }
   };
 
   const showInput = () => {
     setInputVisible(true);
     setTimeout(() => {
-      inputValue && inputValue.current.focus();
+      inputValue.current?.focus();
     }, 1100);
   };
 
   const hideInput = () => {
-    const query = inputValue.current.value;
-    query.length > 0 ? setInputVisible(true) : setInputVisible(false);
+    const query = inputValue.current?.value;
+    query && query.length > 0 ? setInputVisible(true) : setInputVisible(false);
   };
 
   return (
@@ -42,7 +44,7 @@ export default function SearchBox() {
         id="search_data"
       />
       <label htmlFor="search_data">
-        <button aria-label="search button">
+        <button type="button" aria-label="search button">
           <MdOutlineSearch color="white" onMouseOver={showInput} />
         </button>
       </label>

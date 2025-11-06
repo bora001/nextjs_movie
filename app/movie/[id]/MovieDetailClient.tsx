@@ -5,12 +5,21 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import Modal from "../../../component/Modal";
 import styles from "../../../styles/movie.module.css";
+import { MovieDetail, Credit } from "@/types/movie";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
-export default function MovieDetailClient({ detail, credit }) {
-  const [viewCast, setViewCast] = useState(false);
-  const [viewTrailer, setViewTrailer] = useState(false);
+interface MovieDetailClientProps {
+  detail: MovieDetail | null;
+  credit: Credit | null;
+}
+
+export default function MovieDetailClient({
+  detail,
+  credit,
+}: MovieDetailClientProps) {
+  const [viewCast, setViewCast] = useState<boolean>(false);
+  const [viewTrailer, setViewTrailer] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.overflow = viewTrailer ? "hidden" : "unset";
@@ -55,7 +64,7 @@ export default function MovieDetailClient({ detail, credit }) {
             <div className={styles.movie_info}>
               <h2>{detail.title}</h2>
               <div className={styles.genres_box}>
-                {detail.genres.map((g) => (
+                {detail.genres?.map((g) => (
                   <span key={g.id}>{g.name}</span>
                 ))}
               </div>

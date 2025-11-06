@@ -4,15 +4,22 @@ import { useState, useRef } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { EffectCoverflow } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Slider.module.css";
+import { Movie } from "@/types/movie";
 import "swiper/css/effect-coverflow";
 import "swiper/css";
 
-export default function MovieBox({ results }) {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const swiperRef = useRef();
+interface SliderMovieBoxProps {
+  results: Movie[];
+}
+
+export default function SliderMovieBox({ results }: SliderMovieBoxProps) {
+  const [activeSlide, setActiveSlide] = useState<number>(0);
+  const swiperRef = useRef<SwiperType | null>(null);
+
   return (
     <div className={styles.swiper_box}>
       <Swiper
@@ -26,8 +33,8 @@ export default function MovieBox({ results }) {
           slideShadows: false,
         }}
         modules={[EffectCoverflow]}
-        onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
-        onSwiper={(swiper) => {
+        onSlideChange={(swiper: any) => setActiveSlide(swiper.activeIndex)}
+        onSwiper={(swiper: any) => {
           swiperRef.current = swiper;
         }}
         breakpoints={{
@@ -53,7 +60,6 @@ export default function MovieBox({ results }) {
               slideShadows: false,
             },
           },
-
           1440: {
             slidesPerView: 3,
             spaceBetween: 48,
@@ -73,7 +79,7 @@ export default function MovieBox({ results }) {
               <div className={styles.movie_box}>
                 <div
                   className={
-                    i == activeSlide
+                    i === activeSlide
                       ? styles.movie_poster_active
                       : styles.movie_poster
                   }
@@ -87,7 +93,7 @@ export default function MovieBox({ results }) {
                     priority={i === 0 || i === 3}
                   />
                 </div>
-                {i == activeSlide && (
+                {i === activeSlide && (
                   <>
                     <p className={styles.movie_title}>{movie.title}</p>
                     <p className={styles.movie_rate}>
@@ -103,11 +109,11 @@ export default function MovieBox({ results }) {
       <div className={styles.swiper_arrow}>
         <MdNavigateBefore
           className={styles.swiper_prev}
-          onClick={() => swiperRef.current.slidePrev()}
+          onClick={() => swiperRef.current?.slidePrev()}
         />
         <MdNavigateNext
           className={styles.swiper_next}
-          onClick={() => swiperRef.current.slideNext()}
+          onClick={() => swiperRef.current?.slideNext()}
         />
       </div>
     </div>

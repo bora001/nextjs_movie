@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/movieList.module.css";
+import { Movie } from "@/types/movie";
 
-export default function MovieBox({ results }) {
+interface MovieBoxProps {
+  results: Movie[];
+}
+
+export default function MovieBox({ results }: MovieBoxProps) {
   if (!results || !Array.isArray(results) || results.length === 0) {
     return <div className={styles.movie_cnt} />;
   }

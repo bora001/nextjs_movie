@@ -1,18 +1,19 @@
 import HomeClient from "./HomeClient";
 import axios from "axios";
+import { Movie, Genre, MovieListResponse, GenreResponse } from "@/types/movie";
 
 export default async function Home() {
   const API_KEY = process.env.API_KEY;
 
-  let results = [];
-  let genres = [];
+  let results: Movie[] = [];
+  let genres: Genre[] = [];
 
   try {
     const [moviesRes, genresRes] = await Promise.all([
-      axios.get(
+      axios.get<MovieListResponse>(
         `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
       ),
-      axios.get(
+      axios.get<GenreResponse>(
         `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`
       ),
     ]);

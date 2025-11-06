@@ -5,27 +5,30 @@ import { usePathname } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState, useRef, useCallback } from "react";
 import MovieBox from "./MovieBox";
+import { Movie, MovieListResponse } from "@/types/movie";
 
 export default function InfiniteMovieBox() {
   const pathname = usePathname();
-  const [infiniteMovie, setInfiniteMovie] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const pageNumRef = useRef(2);
-  const categoryRef = useRef("");
-  const initializedRef = useRef(false);
-  const isLoadingRef = useRef(false);
+  const [infiniteMovie, setInfiniteMovie] = useState<Movie[]>([]);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const pageNumRef = useRef<number>(2);
+  const categoryRef = useRef<string>("");
+  const initializedRef = useRef<boolean>(false);
+  const isLoadingRef = useRef<boolean>(false);
 
-  const getCategory = useCallback(() => {
+  const getCategory = useCallback((): string => {
     const segments = pathname.split("/").filter(Boolean);
     return segments[0] || "popular";
   }, [pathname]);
 
-  const fetchMovies = useCallback(async (page, category) => {
+  const fetchMovies = useCallback(async (page: number, category: string) => {
     if (isLoadingRef.current) return;
 
     isLoadingRef.current = true;
     try {
-      const res = await axios.get(`/api/movies/${category}/${page}`);
+      const res = await axios.get<MovieListResponse>(
+        `/api/movies/${category}/${page}`
+      );
       const newData = res.data.results;
 
       if (!newData || newData.length === 0) {
@@ -34,7 +37,7 @@ export default function InfiniteMovieBox() {
         return;
       }
 
-      const formattedData = newData.map((item) => ({
+      const formattedData: Movie[] = newData.map((item) => ({
         ...item,
         poster_path: item.poster_path
           ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
@@ -66,11 +69,9 @@ export default function InfiniteMovieBox() {
     }
   }, [hasMore, fetchMovies]);
 
-  // Reset when pathname changes
   useEffect(() => {
     const category = getCategory();
 
-    // Only reset if category actually changed
     if (categoryRef.current !== category) {
       categoryRef.current = category;
       pageNumRef.current = 2;
@@ -80,7 +81,6 @@ export default function InfiniteMovieBox() {
       initializedRef.current = false;
     }
 
-    // Fetch first page only once per category
     if (!initializedRef.current && !isLoadingRef.current) {
       initializedRef.current = true;
       fetchMovies(2, category).then(() => {

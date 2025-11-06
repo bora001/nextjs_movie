@@ -1,12 +1,19 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import { Credit } from "@/types/movie";
 
-export async function GET(request, { params }) {
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
+export async function GET(request: NextRequest, { params }: RouteParams) {
   const API_KEY = process.env.API_KEY;
   const { id } = params;
 
   try {
-    const response = await axios.get(
+    const response = await axios.get<Credit>(
       `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
     );
 
