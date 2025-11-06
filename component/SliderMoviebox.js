@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { EffectCoverflow } from "swiper";
@@ -79,8 +81,10 @@ export default function MovieBox({ results }) {
                   <Image
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={`${movie.title} image`}
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{ objectFit: "contain" }}
+                    priority={i === 0 || i === 3}
                   />
                 </div>
                 {i == activeSlide && (

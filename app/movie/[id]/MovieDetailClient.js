@@ -1,36 +1,51 @@
-import React, { useState } from "react";
-import Head from "next/head";
-import Image from "next/image";
-import axios from "axios";
-import ReactPlayer from "react-player";
-import Modal from "../../component/Modal";
-import styles from "../../styles/movie.module.css";
+"use client";
 
-export default function MovieDetail({ detail, credit }) {
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+import Modal from "../../../component/Modal";
+import styles from "../../../styles/movie.module.css";
+
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+
+export default function MovieDetailClient({ detail, credit }) {
   const [viewCast, setViewCast] = useState(false);
   const [viewTrailer, setViewTrailer] = useState(false);
 
+  useEffect(() => {
+    document.body.style.overflow = viewTrailer ? "hidden" : "unset";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [viewTrailer]);
+
+  if (!detail) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        <h1>Movie not found</h1>
+        <p>The movie you are looking for does not exist.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <Head>
-        <title>Movie | {detail.title}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content={detail.overview} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       {detail && (
         <div className={styles.detail_cnt}>
           <div className="img_box">
             <div className={styles.img_poster}>
               <Image
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
-                layout="fill"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt={`${detail.title} poster image1`}
+                priority
               />
             </div>
             <div className={styles.img_backdrop}>
               <Image
-                layout="fill"
+                fill
+                sizes="(max-width: 768px) 0px, (max-width: 1440px) 34.7222vw, 500px"
                 src={`https://image.tmdb.org/t/p/w500${detail.backdrop_path}`}
                 alt={`${detail.title} poster image2`}
               />
@@ -40,27 +55,28 @@ export default function MovieDetail({ detail, credit }) {
             <div className={styles.movie_info}>
               <h2>{detail.title}</h2>
               <div className={styles.genres_box}>
-                {detail.genres.map((g, i) => (
-                  <span key={i}>{g.name}</span>
+                {detail.genres.map((g) => (
+                  <span key={g.id}>{g.name}</span>
                 ))}
               </div>
 
               <p>{detail.release_date}</p>
-              <p className={styles.movie_rate}>{detail.vote_average}</p>
+              <p className={styles.movie_rate}>
+                {detail.vote_average.toFixed(1)}
+              </p>
               <p className={styles.desc_txt}>{detail.overview}</p>
               <div className={styles.btn_box}>
                 <button
                   className={styles.view_cast}
-                  onClick={() => {
-                    setViewTrailer(!viewTrailer);
-                    document.body.style.overflow = "hidden";
-                  }}
+                  onClick={() => setViewTrailer(!viewTrailer)}
+                  aria-label="View trailer"
                 >
                   View Trailer
                 </button>
                 <button
                   className={styles.view_cast}
                   onClick={() => setViewCast(!viewCast)}
+                  aria-label="View cast"
                 >
                   View Cast
                 </button>
@@ -69,11 +85,15 @@ export default function MovieDetail({ detail, credit }) {
             <div className={styles.cast_box}>
               {viewCast &&
                 credit &&
-                credit.cast.map((cast, i) => (
-                  <div className={styles.cast_info} key={i}>
+                credit.cast.map((cast) => (
+                  <div
+                    className={styles.cast_info}
+                    key={cast.id || cast.cast_id}
+                  >
                     <div className={styles.cast_img}>
                       <Image
-                        layout="fill"
+                        fill
+                        sizes="(max-width: 768px) 80px, 120px"
                         alt={`${cast.name} profile image`}
                         src={
                           cast.profile_path
@@ -92,7 +112,7 @@ export default function MovieDetail({ detail, credit }) {
           </div>
         </div>
       )}
-      {viewTrailer && (
+      {viewTrailer && detail.trailer && (
         <Modal>
           <ReactPlayer
             className={styles.youtube_edit}
@@ -102,10 +122,8 @@ export default function MovieDetail({ detail, credit }) {
           />
           <button
             className={styles.youtube_close}
-            onClick={() => {
-              setViewTrailer(!viewTrailer);
-              document.body.style.overflow = "unset";
-            }}
+            onClick={() => setViewTrailer(!viewTrailer)}
+            aria-label="Close trailer"
           >
             Close
           </button>
@@ -113,26 +131,4 @@ export default function MovieDetail({ detail, credit }) {
       )}
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  const detail = await axios
-    .get(`https://nextjs-movie-ten.vercel.app/api/movie/${context.query.id}`)
-    .then((res) => res.data);
-
-  const video = await axios
-    .get(
-      `https://api.themoviedb.org/3/movie/${context.query.id}/videos?api_key=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&language=en-US`
-    )
-    .then((res) => res.data);
-  const trailer = video.results.filter((x) => (x.name = "Officail Trailer"));
-  detail.trailer = trailer[trailer.length - 1];
-
-  const credit = await axios
-    .get(
-      `https://nextjs-movie-ten.vercel.app/api/movie/${context.query.id}/credit`
-    )
-    .then((res) => res.data);
-
-  return { props: { detail, credit } };
 }

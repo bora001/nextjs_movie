@@ -1,9 +1,12 @@
+"use client";
+
 import { useState, useRef } from "react";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import styles from "../styles/nav.module.css";
 import { MdOutlineSearch } from "react-icons/md";
 
 export default function SearchBox() {
+  const router = useRouter();
   const inputValue = useRef();
   const [inputVisible, setInputVisible] = useState(false);
 
@@ -12,10 +15,7 @@ export default function SearchBox() {
     const query = inputValue.current.value;
 
     if (query.length > 0) {
-      Router.push({
-        pathname: `/search/movie`,
-        query: { query },
-      });
+      router.push(`/search/movie?query=${encodeURIComponent(query)}`);
       inputValue.current.value = "";
     }
   };
