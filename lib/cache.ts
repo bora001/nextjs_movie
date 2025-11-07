@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 
 const DEFAULT_TTL = {
-  MOVIE_LIST: 3600, // 1 hour
+  MOVIE_LIST: 10800, // 3 hour
   GENRE_LIST: 86400, // 24 hours
   MOVIE_DETAIL: 21600, // 6 hours
   SEARCH_RESULTS: 1800, // 30 minutes

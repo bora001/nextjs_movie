@@ -31,17 +31,21 @@ export default function SearchBox() {
 
   const hideInput = () => {
     const query = inputValue.current?.value;
-    query && query.length > 0 ? setInputVisible(true) : setInputVisible(false);
+    setInputVisible(!!(query && query.length > 0));
   };
 
   return (
-    <form className={styles.input_box} onSubmit={searchMovie}>
+    <form
+      className={styles.input_box}
+      onSubmit={searchMovie}
+      onMouseLeave={hideInput}
+    >
       <input
         type="text"
         className={inputVisible ? `${styles.input_visible}` : ""}
         ref={inputValue}
-        onMouseLeave={hideInput}
         id="search_data"
+        placeholder="Search movies"
       />
       <label htmlFor="search_data">
         <button type="button" aria-label="search button">

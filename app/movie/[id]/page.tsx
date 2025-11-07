@@ -1,19 +1,19 @@
-import MovieDetailClient from "./MovieDetailClient";
+import MovieDetail from "./MovieDetail";
 import axios from "axios";
-import { MovieDetail, VideoResponse, Credit } from "@/types/movie";
+import { MovieDetailType, VideoResponseType, CreditType } from "@/types/movie";
 
-interface PageProps {
+interface PagePropsType {
   params: {
     id: string;
   };
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PagePropsType) {
   const API_KEY = process.env.API_KEY;
   const movieId = params.id;
 
   try {
-    const response = await axios.get<MovieDetail>(
+    const response = await axios.get<MovieDetailType>(
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
     );
     const detail = response.data;
@@ -28,22 +28,22 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-export default async function MovieDetailPage({ params }: PageProps) {
+export default async function MovieDetailPage({ params }: PagePropsType) {
   const API_KEY = process.env.API_KEY;
   const movieId = params.id;
 
-  let detail: MovieDetail | null = null;
-  let credit: Credit | null = null;
+  let detail: MovieDetailType | null = null;
+  let credit: CreditType | null = null;
 
   try {
     const [detailRes, videoRes, creditRes] = await Promise.all([
-      axios.get<MovieDetail>(
+      axios.get<MovieDetailType>(
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
       ),
-      axios.get<VideoResponse>(
+      axios.get<VideoResponseType>(
         `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
       ),
-      axios.get<Credit>(
+      axios.get<CreditType>(
         `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`
       ),
     ]);
@@ -60,5 +60,5 @@ export default async function MovieDetailPage({ params }: PageProps) {
     console.error("Error fetching movie details:", error);
   }
 
-  return <MovieDetailClient detail={detail} credit={credit} />;
+  return <MovieDetail detail={detail} credit={credit} />;
 }

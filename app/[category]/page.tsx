@@ -2,15 +2,15 @@ import MovieBox from "../../component/MovieBox";
 import InfiniteMovieBox from "../../component/InfiniteMovieBox";
 import styles from "../../styles/movieList.module.css";
 import axios from "axios";
-import { Movie, MovieListResponse } from "@/types/movie";
+import { MovieType, MovieListResponseType } from "@/types/movie";
 
-interface PageProps {
+interface PagePropsType {
   params: {
     category: string;
   };
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PagePropsType) {
   const title = params.category
     .replace("_", " ")
     .replace(params.category[0], params.category[0].toUpperCase());
@@ -21,17 +21,17 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function MovieListPage({ params }: PageProps) {
+export default async function MovieListPage({ params }: PagePropsType) {
   const API_KEY = process.env.API_KEY;
   const category = params.category;
   const title = category
     .replace("_", " ")
     .replace(category[0], category[0].toUpperCase());
 
-  let results: Movie[] = [];
+  let results: MovieType[] = [];
 
   try {
-    const response = await axios.get<MovieListResponse>(
+    const response = await axios.get<MovieListResponseType>(
       `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`
     );
     results = response.data.results || [];
@@ -39,7 +39,7 @@ export default async function MovieListPage({ params }: PageProps) {
     console.error("Error fetching movies:", error);
   }
 
-  const formattedResults: Movie[] = results.map((item) => ({
+  const formattedResults: MovieType[] = results.map((item) => ({
     ...item,
     poster_path: item.poster_path
       ? `https://image.tmdb.org/t/p/w500${item.poster_path}`

@@ -4,20 +4,17 @@ import { useEffect, useState, MouseEvent } from "react";
 import axios from "axios";
 import SliderMovieBox from "../component/SliderMovieBox";
 import styles from "../styles/Home.module.css";
-import { Movie, Genre, MovieListResponse } from "@/types/movie";
+import { MovieType, GenreType, MovieListResponseType } from "@/types/movie";
 
-interface HomeClientProps {
-  initialResults: Movie[];
-  initialGenres: Genre[];
+interface HomeProps {
+  initialResults: MovieType[];
+  initialGenres: GenreType[];
 }
 
-export default function HomeClient({
-  initialResults,
-  initialGenres,
-}: HomeClientProps) {
-  const [movieList, setMovieList] = useState<Movie[]>(initialResults || []);
+export default function Home({ initialResults, initialGenres }: HomeProps) {
+  const [movieList, setMovieList] = useState<MovieType[]>(initialResults || []);
   const [keyword, setKeyword] = useState<string>("");
-  const [genres] = useState<Genre[]>(initialGenres || []);
+  const [genres] = useState<GenreType[]>(initialGenres || []);
 
   useEffect(() => {
     setMovieList(initialResults || []);
@@ -27,7 +24,7 @@ export default function HomeClient({
   const setGenre = async (e: MouseEvent<HTMLButtonElement>) => {
     try {
       const query = Number(e.currentTarget.value);
-      const response = await axios.get<MovieListResponse>(
+      const response = await axios.get<MovieListResponseType>(
         `/api/genres/${query}`
       );
       const { results } = response.data;

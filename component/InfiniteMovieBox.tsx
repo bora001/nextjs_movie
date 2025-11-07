@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState, useRef, useCallback } from "react";
 import MovieBox from "./MovieBox";
-import { Movie, MovieListResponse } from "@/types/movie";
+import { MovieType, MovieListResponseType } from "@/types/movie";
 
 export default function InfiniteMovieBox() {
   const pathname = usePathname();
-  const [infiniteMovie, setInfiniteMovie] = useState<Movie[]>([]);
+  const [infiniteMovie, setInfiniteMovie] = useState<MovieType[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const pageNumRef = useRef<number>(1);
   const categoryRef = useRef<string>("");
@@ -26,7 +26,7 @@ export default function InfiniteMovieBox() {
 
     isLoadingRef.current = true;
     try {
-      const res = await axios.get<MovieListResponse>(
+      const res = await axios.get<MovieListResponseType>(
         `/api/movies/${category}/${page}`
       );
       const newData = res.data.results;
@@ -37,7 +37,7 @@ export default function InfiniteMovieBox() {
         return;
       }
 
-      const formattedData: Movie[] = newData.map((item) => ({
+      const formattedData: MovieType[] = newData.map((item) => ({
         ...item,
         poster_path: item.poster_path
           ? `https://image.tmdb.org/t/p/w500${item.poster_path}`

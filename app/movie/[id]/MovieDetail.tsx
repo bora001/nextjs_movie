@@ -5,19 +5,16 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import Modal from "../../../component/Modal";
 import styles from "../../../styles/movie.module.css";
-import { MovieDetail, Credit } from "@/types/movie";
+import { MovieDetailType, CreditType } from "@/types/movie";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
-interface MovieDetailClientProps {
-  detail: MovieDetail | null;
-  credit: Credit | null;
+interface MovieDetailPropsType {
+  detail: MovieDetailType | null;
+  credit: CreditType | null;
 }
 
-export default function MovieDetailClient({
-  detail,
-  credit,
-}: MovieDetailClientProps) {
+export default function MovieDetail({ detail, credit }: MovieDetailPropsType) {
   const [viewCast, setViewCast] = useState<boolean>(false);
   const [viewTrailer, setViewTrailer] = useState<boolean>(false);
 
@@ -75,13 +72,15 @@ export default function MovieDetailClient({
               </p>
               <p className={styles.desc_txt}>{detail.overview}</p>
               <div className={styles.btn_box}>
-                <button
-                  className={styles.view_cast}
-                  onClick={() => setViewTrailer(!viewTrailer)}
-                  aria-label="View trailer"
-                >
-                  View Trailer
-                </button>
+                {detail.trailer && (
+                  <button
+                    className={styles.view_cast}
+                    onClick={() => setViewTrailer(!viewTrailer)}
+                    aria-label="View trailer"
+                  >
+                    View Trailer
+                  </button>
+                )}
                 <button
                   className={styles.view_cast}
                   onClick={() => setViewCast(!viewCast)}
@@ -104,6 +103,12 @@ export default function MovieDetailClient({
                         fill
                         sizes="(max-width: 768px) 80px, 120px"
                         alt={`${cast.name} profile image`}
+                        style={{
+                          objectFit: "cover",
+                          objectPosition: "center",
+                          transform: "scale(0.9)",
+                          filter: "brightness(0.85)",
+                        }}
                         src={
                           cast.profile_path
                             ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`

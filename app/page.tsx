@@ -1,23 +1,28 @@
-import HomeClient from "./HomeClient";
-import { Movie, Genre, MovieListResponse, GenreResponse } from "@/types/movie";
+import Home from "./Home";
+import {
+  MovieType,
+  GenreType,
+  MovieListResponseType,
+  GenreResponseType,
+} from "@/types/movie";
 import { CacheKeys, CacheTTL } from "@/lib/cache";
 import { fetchWithCache } from "@/lib/api-handler";
 
-export default async function Home() {
+export default async function HomePage() {
   const API_KEY = process.env.API_KEY;
 
-  let results: Movie[] = [];
-  let genres: Genre[] = [];
+  let results: MovieType[] = [];
+  let genres: GenreType[] = [];
 
   try {
     const [cachedMovies, cachedGenres] = await Promise.all([
-      fetchWithCache<MovieListResponse>({
+      fetchWithCache<MovieListResponseType>({
         cacheKey: CacheKeys.MOVIE_LIST("popular", 1),
         cacheTTL: CacheTTL.MOVIE_LIST,
         apiUrl: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`,
         errorMessage: "Failed to fetch popular movies",
       }),
-      fetchWithCache<GenreResponse>({
+      fetchWithCache<GenreResponseType>({
         cacheKey: CacheKeys.GENRE_LIST(),
         cacheTTL: CacheTTL.GENRE_LIST,
         apiUrl: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
@@ -31,5 +36,5 @@ export default async function Home() {
     console.error("Error fetching initial data:", error);
   }
 
-  return <HomeClient initialResults={results} initialGenres={genres} />;
+  return <Home initialResults={results} initialGenres={genres} />;
 }

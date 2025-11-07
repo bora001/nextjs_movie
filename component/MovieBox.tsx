@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/movieList.module.css";
-import { Movie } from "@/types/movie";
+import { MovieType } from "@/types/movie";
+import { MdOutlineMovieCreation } from "react-icons/md";
 
-interface MovieBoxProps {
-  results: Movie[];
+interface MovieBoxPropsType {
+  results: MovieType[];
 }
 
-export default function MovieBox({ results }: MovieBoxProps) {
+export default function MovieBox({ results }: MovieBoxPropsType) {
   if (!results || !Array.isArray(results) || results.length === 0) {
     return <div className={styles.movie_cnt} />;
   }
@@ -16,30 +17,46 @@ export default function MovieBox({ results }: MovieBoxProps) {
     <div className={styles.movie_cnt}>
       {results
         .filter((movie) => movie && movie.id)
-        .map((movie, index) => (
-          <Link href={`/movie/${movie.id}`} key={movie.id}>
-            <div className={styles.movie_box}>
-              <div className={styles.movie_poster}>
-                {movie.poster_path && (
-                  <Image
-                    src={movie.poster_path}
-                    alt={`${movie.title || "Movie"} image`}
-                    fill
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                    style={{ objectFit: "contain" }}
-                    priority={index < 4}
-                  />
-                )}
+        .map((movie, index) => {
+          const posterPath =
+            movie.poster_path ||
+            (movie.backdrop_path
+              ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+              : null);
+          return (
+            <Link href={`/movie/${movie.id}`} key={movie.id}>
+              <div className={styles.movie_box}>
+                <div className={styles.movie_poster}>
+                  {posterPath ? (
+                    <Image
+                      src={posterPath}
+                      alt={`${movie.title || "Movie"} image`}
+                      fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                      style={{
+                        objectFit: "cover",
+                        backgroundColor: "#534f4f",
+                      }}
+                      priority={index < 4}
+                    />
+                  ) : (
+                    <div className={styles.movie_poster_empty}>
+                      <MdOutlineMovieCreation size={30} />
+                    </div>
+                  )}
+                </div>
+                <p className={styles.movie_title}>
+                  {movie.title || "Untitled"}
+                </p>
+                <p className={styles.movie_rate}>
+                  {movie.vote_average != null
+                    ? movie.vote_average.toFixed(1)
+                    : "N/A"}
+                </p>
               </div>
-              <p className={styles.movie_title}>{movie.title || "Untitled"}</p>
-              <p className={styles.movie_rate}>
-                {movie.vote_average != null
-                  ? movie.vote_average.toFixed(1)
-                  : "N/A"}
-              </p>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
     </div>
   );
 }

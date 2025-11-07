@@ -1,4 +1,4 @@
-export interface Movie {
+export interface MovieType {
   id: number;
   title: string;
   overview: string;
@@ -13,22 +13,22 @@ export interface Movie {
   original_language: string;
   original_title: string;
   genre_ids?: number[];
-  genres?: Genre[];
+  genres?: GenreType[];
 }
 
-export interface Genre {
+export interface GenreType {
   id: number;
   name: string;
 }
 
-export interface MovieListResponse {
+export interface MovieListResponseType {
   page: number;
-  results: Movie[];
+  results: MovieType[];
   total_pages: number;
   total_results: number;
 }
 
-export interface MovieDetail extends Movie {
+export interface MovieDetailType extends MovieType {
   budget: number;
   revenue: number;
   runtime: number;
@@ -36,31 +36,31 @@ export interface MovieDetail extends Movie {
   tagline: string;
   homepage: string;
   imdb_id: string | null;
-  production_companies: ProductionCompany[];
-  production_countries: ProductionCountry[];
-  spoken_languages: SpokenLanguage[];
-  trailer?: Video | null;
+  production_companies: ProductionCompanyType[];
+  production_countries: ProductionCountryType[];
+  spoken_languages: SpokenLanguageType[];
+  trailer?: VideoType | null;
 }
 
-export interface ProductionCompany {
+export interface ProductionCompanyType {
   id: number;
   name: string;
   logo_path: string | null;
   origin_country: string;
 }
 
-export interface ProductionCountry {
+export interface ProductionCountryType {
   iso_3166_1: string;
   name: string;
 }
 
-export interface SpokenLanguage {
+export interface SpokenLanguageType {
   english_name: string;
   iso_639_1: string;
   name: string;
 }
 
-export interface Cast {
+export interface CastType {
   id: number;
   cast_id: number;
   character: string;
@@ -69,13 +69,13 @@ export interface Cast {
   order: number;
 }
 
-export interface Credit {
+export interface CreditType {
   id: number;
-  cast: Cast[];
-  crew: Crew[];
+  cast: CastType[];
+  crew: CrewType[];
 }
 
-export interface Crew {
+export interface CrewType {
   id: number;
   credit_id: string;
   department: string;
@@ -84,7 +84,7 @@ export interface Crew {
   profile_path: string | null;
 }
 
-export interface Video {
+export interface VideoType {
   id: string;
   key: string;
   name: string;
@@ -95,11 +95,11 @@ export interface Video {
   published_at: string;
 }
 
-export interface VideoResponse {
+export interface VideoResponseType {
   id: number;
-  results: Video[];
+  results: VideoType[];
 }
 
-export interface GenreResponse {
-  genres: Genre[];
+export interface GenreResponseType {
+  genres: GenreType[];
 }

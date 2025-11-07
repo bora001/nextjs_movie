@@ -8,15 +8,15 @@ import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Slider.module.css";
-import { Movie } from "@/types/movie";
+import { MovieType } from "@/types/movie";
 import "swiper/css/effect-coverflow";
 import "swiper/css";
 
-interface SliderMovieBoxProps {
-  results: Movie[];
+interface SliderMovieBoxPropsType {
+  results: MovieType[];
 }
 
-export default function SliderMovieBox({ results }: SliderMovieBoxProps) {
+export default function SliderMovieBox({ results }: SliderMovieBoxPropsType) {
   const [activeSlide, setActiveSlide] = useState<number>(0);
   const swiperRef = useRef<SwiperType | null>(null);
 
