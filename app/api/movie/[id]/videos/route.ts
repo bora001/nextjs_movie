@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
+import { NextRequest } from "next/server";
 import { VideoResponse } from "@/types/movie";
+import { CacheKeys, CacheTTL } from "@/lib/cache";
+import { withCache } from "@/lib/api-handler";
 
 interface RouteParams {
   params: {
@@ -12,17 +13,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   const API_KEY = process.env.API_KEY;
   const { id } = params;
 
-  try {
-    const response = await axios.get<VideoResponse>(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
-    );
-
-    return NextResponse.json(response.data);
-  } catch (error) {
-    console.error("Error fetching movie videos:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch movie videos" },
-      { status: 500 }
-    );
-  }
+  return withCache<VideoResponse>({
+    cacheKey: CacheKeys.MOVIE_VIDEOS(id),
+    cacheTTL: CacheTTL.MOVIE_DETAIL,
+    apiUrl: `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
+    errorMessage: "Failed to fetch movie videos",
+  });
 }

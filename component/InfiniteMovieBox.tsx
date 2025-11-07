@@ -11,7 +11,7 @@ export default function InfiniteMovieBox() {
   const pathname = usePathname();
   const [infiniteMovie, setInfiniteMovie] = useState<Movie[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const pageNumRef = useRef<number>(2);
+  const pageNumRef = useRef<number>(1);
   const categoryRef = useRef<string>("");
   const initializedRef = useRef<boolean>(false);
   const isLoadingRef = useRef<boolean>(false);
@@ -74,7 +74,7 @@ export default function InfiniteMovieBox() {
 
     if (categoryRef.current !== category) {
       categoryRef.current = category;
-      pageNumRef.current = 2;
+      pageNumRef.current = 1;
       setInfiniteMovie([]);
       setHasMore(true);
       isLoadingRef.current = false;
@@ -83,8 +83,8 @@ export default function InfiniteMovieBox() {
 
     if (!initializedRef.current && !isLoadingRef.current) {
       initializedRef.current = true;
-      fetchMovies(2, category).then(() => {
-        pageNumRef.current = 3;
+      fetchMovies(1, category).then(() => {
+        pageNumRef.current = 2;
       });
     }
   }, [pathname, getCategory, fetchMovies]);
