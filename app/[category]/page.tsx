@@ -3,7 +3,7 @@ import InfiniteMovieBox from "../../component/InfiniteMovieBox";
 import styles from "../../styles/movieList.module.css";
 import axios from "axios";
 import { MovieType, MovieListResponseType } from "@/types/movie";
-
+import { CONFIG } from "@/config/config";
 interface PagePropsType {
   params: {
     category: string;
@@ -32,7 +32,7 @@ export default async function MovieListPage({ params }: PagePropsType) {
 
   try {
     const response = await axios.get<MovieListResponseType>(
-      `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`
+      `${CONFIG.MOVIE_URL}/movie/${category}?api_key=${API_KEY}`
     );
     results = response.data.results || [];
   } catch (error) {

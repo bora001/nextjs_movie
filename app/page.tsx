@@ -7,6 +7,7 @@ import {
 } from "@/types/movie";
 import { CacheKeys, CacheTTL } from "@/lib/cache";
 import { fetchWithCache } from "@/lib/api-handler";
+import { CONFIG } from "@/config/config";
 
 export default async function HomePage() {
   const API_KEY = process.env.API_KEY;
@@ -19,13 +20,13 @@ export default async function HomePage() {
       fetchWithCache<MovieListResponseType>({
         cacheKey: CacheKeys.MOVIE_LIST("popular", 1),
         cacheTTL: CacheTTL.MOVIE_LIST,
-        apiUrl: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`,
+        apiUrl: `${CONFIG.MOVIE_URL}/movie/popular?api_key=${API_KEY}`,
         errorMessage: "Failed to fetch popular movies",
       }),
       fetchWithCache<GenreResponseType>({
         cacheKey: CacheKeys.GENRE_LIST(),
         cacheTTL: CacheTTL.GENRE_LIST,
-        apiUrl: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`,
+        apiUrl: `${CONFIG.MOVIE_URL}/genre/movie/list?api_key=${API_KEY}`,
         errorMessage: "Failed to fetch genres",
       }),
     ]);

@@ -3,7 +3,7 @@ import { MdManageSearch } from "react-icons/md";
 import axios from "axios";
 import styles from "../../../styles/Home.module.css";
 import { MovieType, MovieListResponseType } from "@/types/movie";
-
+import { CONFIG } from "@/config/config";
 interface PageProps {
   searchParams: {
     query?: string;
@@ -26,7 +26,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
 
   try {
     const response = await axios.get<MovieListResponseType>(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`,
+      `${CONFIG.MOVIE_URL}/search/movie?api_key=${API_KEY}`,
       {
         params: { query: params },
       }

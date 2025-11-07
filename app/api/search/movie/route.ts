@@ -18,9 +18,9 @@ export async function GET(request: NextRequest) {
   return withCache<MovieListResponseType>({
     cacheKey: CacheKeys.SEARCH_RESULTS(query),
     cacheTTL: CacheTTL.SEARCH_RESULTS,
-    apiUrl: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
-      query
-    )}`,
+    apiUrl: `${
+      CONFIG.MOVIE_URL
+    }/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`,
     errorMessage: "Failed to search movies",
   });
 }

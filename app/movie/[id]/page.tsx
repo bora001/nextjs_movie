@@ -1,7 +1,7 @@
 import MovieDetail from "./MovieDetail";
 import axios from "axios";
 import { MovieDetailType, VideoResponseType, CreditType } from "@/types/movie";
-
+import { CONFIG } from "@/config/config";
 interface PagePropsType {
   params: {
     id: string;
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PagePropsType) {
 
   try {
     const response = await axios.get<MovieDetailType>(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
+      `${CONFIG.MOVIE_URL}/movie/${movieId}?api_key=${API_KEY}`
     );
     const detail = response.data;
     return {
@@ -38,13 +38,13 @@ export default async function MovieDetailPage({ params }: PagePropsType) {
   try {
     const [detailRes, videoRes, creditRes] = await Promise.all([
       axios.get<MovieDetailType>(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
+        `${CONFIG.MOVIE_URL}/movie/${movieId}?api_key=${API_KEY}`
       ),
       axios.get<VideoResponseType>(
-        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
+        `${CONFIG.MOVIE_URL}/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
       ),
       axios.get<CreditType>(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`
+        `${CONFIG.MOVIE_URL}/movie/${movieId}/credits?api_key=${API_KEY}`
       ),
     ]);
 
