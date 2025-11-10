@@ -1,11 +1,8 @@
 .container {
-  /* border: 2px solid red; */
-  /* min-height: calc(100vh - 100px); */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
 }
 
 .formWrapper {
@@ -89,7 +86,7 @@
 
 .submitButton {
   padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #667eea;
   color: white;
   border: none;
   border-radius: 5px;
