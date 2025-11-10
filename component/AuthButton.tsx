@@ -6,7 +6,7 @@ import Link from "next/link";
 import styles from "./AuthButton.module.css";
 import { useAuthStore } from "@/store/useAuthStore";
 import { UserType } from "@/types/user";
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 
 export default function AuthButton({
   user: loginUser,
@@ -22,10 +22,10 @@ export default function AuthButton({
 
   const handleLogout = async () => {
     try {
-      await fetch(CONSTANTS.ROUTES.API.AUTH.LOGOUT, { method: "POST" });
+      await fetch(API.ROUTES.API.AUTH.LOGOUT, { method: "POST" });
       setUser(null);
       fetchUser();
-      router.push(CONSTANTS.ROUTES.HOME);
+      router.push(API.ROUTES.HOME);
       router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
@@ -47,10 +47,10 @@ export default function AuthButton({
 
   return (
     <div className={styles.authContainer}>
-      <Link href={CONSTANTS.ROUTES.LOGIN} className={styles.loginLink}>
+      <Link href={API.ROUTES.LOGIN} className={styles.loginLink}>
         Login
       </Link>
-      <Link href={CONSTANTS.ROUTES.REGISTER} className={styles.registerLink}>
+      <Link href={API.ROUTES.REGISTER} className={styles.registerLink}>
         Register
       </Link>
     </div>

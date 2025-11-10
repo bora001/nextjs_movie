@@ -1,4 +1,4 @@
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 import { getCurrentUser } from "@/lib/auth";
 import { errorResponse, successResponse } from "@/lib/response-handler";
 
@@ -9,13 +9,13 @@ export async function GET() {
     if (!user) {
       return errorResponse({
         message: "Unauthorized user.",
-        status: CONSTANTS.STATUS_CODES.UNAUTHORIZED,
+        status: API.STATUS_CODES.UNAUTHORIZED,
       });
     }
 
     return successResponse({
       message: "User found.",
-      status: CONSTANTS.STATUS_CODES.OK,
+      status: API.STATUS_CODES.OK,
       data: {
         user: {
           id: user.id,
@@ -29,7 +29,7 @@ export async function GET() {
     console.error("Get current user error:", error);
     return errorResponse({
       message: "Server error occurred.",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 }

@@ -4,8 +4,8 @@ import styles from "../../styles/movieList.module.css";
 import axios from "axios";
 import { MovieType, MovieListResponseType } from "@/types/movie";
 import { CONFIG } from "@/config/config";
-import { CONSTANTS } from "@/constants/constants";
 import { redirect } from "next/navigation";
+import { API, NAMING } from "@/constants";
 interface PagePropsType {
   params: {
     category: string;
@@ -24,10 +24,8 @@ export async function generateMetadata({ params }: PagePropsType) {
 }
 
 export default async function MovieListPage({ params }: PagePropsType) {
-  if (
-    !CONSTANTS.CATEGORIES[params.category as keyof typeof CONSTANTS.CATEGORIES]
-  ) {
-    redirect(CONSTANTS.ROUTES.HOME);
+  if (!NAMING.CATEGORIES[params.category as keyof typeof NAMING.CATEGORIES]) {
+    redirect(API.ROUTES.HOME);
   }
   const API_KEY = process.env.API_KEY;
   const category = params.category;

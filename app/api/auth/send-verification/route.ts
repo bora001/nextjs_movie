@@ -5,7 +5,7 @@ import {
   sendVerificationEmail,
 } from "@/lib/email/email";
 import { errorResponse, successResponse } from "@/lib/response-handler";
-import { CONSTANTS } from "@/constants/constants";
+import { API, REGEX } from "@/constants";
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,15 +16,15 @@ export async function POST(request: NextRequest) {
     if (!email) {
       return errorResponse({
         message: "Please enter your email.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
     // Email validation
-    if (!CONSTANTS.REGEX.EMAIL.test(email)) {
+    if (!REGEX.EMAIL.test(email)) {
       return errorResponse({
         message: "Invalid email format.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     if (existingUser) {
       return errorResponse({
         message: "Email already exists. Please login instead.",
-        status: CONSTANTS.STATUS_CODES.CONFLICT,
+        status: API.STATUS_CODES.CONFLICT,
       });
     }
 
@@ -48,14 +48,14 @@ export async function POST(request: NextRequest) {
 
     return successResponse({
       message: "Verification email sent. Please check your email.",
-      status: CONSTANTS.STATUS_CODES.OK,
+      status: API.STATUS_CODES.OK,
     });
   } catch (error) {
     console.error("Send verification error:", error);
 
     return errorResponse({
       message: "Server error occurred.",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 }

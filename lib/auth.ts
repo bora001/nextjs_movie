@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { UserType } from "@/types/user";
-import { CONSTANTS } from "@/constants/constants";
 import { CONFIG } from "@/config/config";
+import { API, CACHE, NAMING } from "@/constants";
 
 // Hash password
 export async function hashPassword(password: string): Promise<string> {
@@ -21,7 +21,7 @@ export async function comparePassword(
 // Generate JWT token
 export function generateToken(userId: string, email: string): string {
   return jwt.sign({ userId, email }, CONFIG.JWT_SECRET, {
-    expiresIn: CONSTANTS.CACHE_DURATION.WEEKLY_7D,
+    expiresIn: CACHE.CACHE_DURATION.WEEKLY_7D,
   });
 }
 
@@ -43,26 +43,26 @@ export function verifyToken(
 // Set auth cookie
 export async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
-  cookieStore.set(CONSTANTS.COOKIE_KEYS.AUTH_TOKEN, token, {
+  cookieStore.set(NAMING.COOKIE_KEYS.AUTH_TOKEN, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: CONSTANTS.CACHE_DURATION.DAILY_1D,
-    path: CONSTANTS.ROUTES.HOME,
+    maxAge: CACHE.CACHE_DURATION.DAILY_1D,
+    path: API.ROUTES.HOME,
   });
 }
 
 // Get auth token from cookie
 export async function getAuthToken(): Promise<string | null> {
   const cookieStore = await cookies();
-  const token = cookieStore.get(CONSTANTS.COOKIE_KEYS.AUTH_TOKEN);
+  const token = cookieStore.get(NAMING.COOKIE_KEYS.AUTH_TOKEN);
   return token?.value || null;
 }
 
 // Clear auth cookie
 export async function clearAuthCookie() {
   const cookieStore = await cookies();
-  cookieStore.delete(CONSTANTS.COOKIE_KEYS.AUTH_TOKEN);
+  cookieStore.delete(NAMING.COOKIE_KEYS.AUTH_TOKEN);
   console.log("clearing auth cookie"), cookieStore;
 }
 

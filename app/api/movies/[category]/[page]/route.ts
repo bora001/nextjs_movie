@@ -4,7 +4,7 @@ import { CacheKeys, CacheTTL } from "@/lib/cache";
 import { withCache } from "@/lib/api-handler";
 import { CONFIG } from "@/config/config";
 import { errorResponse } from "@/lib/response-handler";
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 interface RouteParams {
   params: {
     category: string;
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     console.error("API_KEY is not set");
     return errorResponse({
       message: "API key is not configured",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     console.error("MOVIE_API_URL is not set");
     return errorResponse({
       message: "Movie API URL is not configured",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   if (!validCategories.includes(category)) {
     return errorResponse({
       message: `Invalid category: ${category}`,
-      status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+      status: API.STATUS_CODES.BAD_REQUEST,
     });
   }
 
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   if (isNaN(pageNum) || pageNum < 1) {
     return errorResponse({
       message: `Invalid page number: ${page}`,
-      status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+      status: API.STATUS_CODES.BAD_REQUEST,
     });
   }
 

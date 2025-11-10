@@ -5,7 +5,7 @@ import axios from "axios";
 import SliderMovieBox from "../component/SliderMovieBox";
 import styles from "../styles/Home.module.css";
 import { MovieType, GenreType, MovieListResponseType } from "@/types/movie";
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 
 interface HomeProps {
   initialResults: MovieType[];
@@ -26,7 +26,7 @@ export default function Home({ initialResults, initialGenres }: HomeProps) {
     try {
       const query = Number(e.currentTarget.value);
       const response = await axios.get<MovieListResponseType>(
-        `${CONSTANTS.ROUTES.API.GENRES}/${query}`
+        `${API.ROUTES.API.GENRES}/${query}`
       );
       const { results } = response.data;
       setMovieList(results);

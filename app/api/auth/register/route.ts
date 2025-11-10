@@ -4,7 +4,7 @@ import { hashPassword, generateToken, setAuthCookie } from "@/lib/auth";
 import { getUserByEmail, createUser } from "@/lib/db";
 import crypto from "crypto";
 import { errorResponse, successResponse } from "@/lib/response-handler";
-import { CONSTANTS } from "@/constants/constants";
+import { API, REGEX } from "@/constants";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,15 +15,15 @@ export async function POST(request: NextRequest) {
     if (!email || !name || !password) {
       return errorResponse({
         message: "Please enter your email, name, and password.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
     // Email validation
-    if (!CONSTANTS.REGEX.EMAIL.test(email)) {
+    if (!REGEX.EMAIL.test(email)) {
       return errorResponse({
         message: "Invalid email format.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     if (password.length < 6) {
       return errorResponse({
         message: "Password must be at least 6 characters.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     if (existingUser) {
       return errorResponse({
         message: "Email already exists.",
-        status: CONSTANTS.STATUS_CODES.CONFLICT,
+        status: API.STATUS_CODES.CONFLICT,
       });
     }
 
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     if (!created) {
       return errorResponse({
         message: "Registration failed. Please try again.",
-        status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+        status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
       });
     }
 
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     return successResponse({
       message: "Registration completed successfully.",
-      status: CONSTANTS.STATUS_CODES.CREATED,
+      status: API.STATUS_CODES.CREATED,
       data: {
         user: {
           id: userId,
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     console.error("Register error:", error);
     return errorResponse({
       message: "Server error occurred.",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 }

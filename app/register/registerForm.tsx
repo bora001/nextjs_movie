@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./register.module.css";
 import { CONSTANTS } from "@/constants/constants";
+import { API, REGEX } from "@/constants";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -36,23 +37,20 @@ const RegisterForm = () => {
     setVerificationLoading(true);
 
     // Email validation
-    if (!formData.email || !CONSTANTS.REGEX.EMAIL.test(formData.email)) {
+    if (!formData.email || !REGEX.EMAIL.test(formData.email)) {
       setError("Please enter a valid email address.");
       setVerificationLoading(false);
       return;
     }
 
     try {
-      const response = await fetch(
-        CONSTANTS.ROUTES.API.AUTH.SEND_VERIFICATION_CODE,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: formData.email }),
-        }
-      );
+      const response = await fetch(API.ROUTES.API.AUTH.SEND_VERIFICATION_CODE, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
 
       const data = await response.json();
 
@@ -81,7 +79,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(CONSTANTS.ROUTES.API.AUTH.VERIFY_CODE, {
+      const response = await fetch(API.ROUTES.API.AUTH.VERIFY_CODE, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +137,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(CONSTANTS.ROUTES.API.AUTH.REGISTER, {
+      const response = await fetch(API.ROUTES.API.AUTH.REGISTER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -161,7 +159,7 @@ const RegisterForm = () => {
 
       setSuccess(true);
       setTimeout(() => {
-        router.push(CONSTANTS.ROUTES.HOME);
+        router.push(API.ROUTES.HOME);
         router.refresh();
       }, 2000);
     } catch (err) {
@@ -356,7 +354,7 @@ const RegisterForm = () => {
 
             <div className={styles.linkContainer}>
               <span>Already have an account? </span>
-              <Link href={CONSTANTS.ROUTES.LOGIN} className={styles.link}>
+              <Link href={API.ROUTES.LOGIN} className={styles.link}>
                 Login
               </Link>
             </div>

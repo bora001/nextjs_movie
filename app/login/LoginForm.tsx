@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./login.module.css";
 import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ export const LoginForm = () => {
     }
 
     try {
-      const response = await fetch(CONSTANTS.ROUTES.API.AUTH.LOGIN, {
+      const response = await fetch(API.ROUTES.API.AUTH.LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +55,7 @@ export const LoginForm = () => {
       }
 
       // Redirect to home
-      router.push(CONSTANTS.ROUTES.HOME);
+      router.push(API.ROUTES.HOME);
       router.refresh();
     } catch (err) {
       setError("Server error occurred. Please try again.");
@@ -108,7 +109,7 @@ export const LoginForm = () => {
 
           <div className={styles.linkContainer}>
             <span>Don&apos;t have an account? </span>
-            <Link href={CONSTANTS.ROUTES.REGISTER} className={styles.link}>
+            <Link href={API.ROUTES.REGISTER} className={styles.link}>
               Register
             </Link>
           </div>

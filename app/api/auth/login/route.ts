@@ -3,7 +3,7 @@ import { LoginRequest } from "@/types/user";
 import { comparePassword, generateToken, setAuthCookie } from "@/lib/auth";
 import { getUserByEmail } from "@/lib/db";
 import { errorResponse, successResponse } from "@/lib/response-handler";
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     if (!email || !password) {
       return errorResponse({
         message: "Please enter your email and password.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return errorResponse({
         message: "Email or password is incorrect.",
-        status: CONSTANTS.STATUS_CODES.UNAUTHORIZED,
+        status: API.STATUS_CODES.UNAUTHORIZED,
       });
     }
 
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     if (!isPasswordValid) {
       return errorResponse({
         message: "Email or password is incorrect.",
-        status: CONSTANTS.STATUS_CODES.UNAUTHORIZED,
+        status: API.STATUS_CODES.UNAUTHORIZED,
       });
     }
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     return successResponse({
       message: "Login successful.",
-      status: CONSTANTS.STATUS_CODES.OK,
+      status: API.STATUS_CODES.OK,
       data: {
         user: {
           id: user.id,
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     console.error("Login error:", error);
     return errorResponse({
       message: "Server error occurred.",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 }

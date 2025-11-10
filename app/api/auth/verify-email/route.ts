@@ -11,7 +11,7 @@ import {
 } from "@/lib/db";
 import crypto from "crypto";
 import { errorResponse, successResponse } from "@/lib/response-handler";
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 
 export async function GET(request: NextRequest) {
   try {
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (!token) {
       return errorResponse({
         message: "Verification token is required.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     if (!email) {
       return errorResponse({
         message: "Invalid or expired verification token.",
-        status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+        status: API.STATUS_CODES.BAD_REQUEST,
       });
     }
 
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 
         return successResponse({
           message: "Email already verified.",
-          status: CONSTANTS.STATUS_CODES.OK,
+          status: API.STATUS_CODES.OK,
           data: {
             user: {
               id: user.id,
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
       if (!updated) {
         return errorResponse({
           message: "Email verification update failed.",
-          status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+          status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
         });
       }
 
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 
       return successResponse({
         message: "Email verification completed.",
-        status: CONSTANTS.STATUS_CODES.OK,
+        status: API.STATUS_CODES.OK,
         data: {
           user: {
             id: user.id,
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
 
         return errorResponse({
           message: "Registration information not found. Please register again.",
-          status: CONSTANTS.STATUS_CODES.NOT_FOUND,
+          status: API.STATUS_CODES.NOT_FOUND,
         });
       }
 
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
       if (!created) {
         return errorResponse({
           message: "Registration failed. Please try again.",
-          status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+          status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
         });
       }
 
@@ -136,7 +136,7 @@ export async function GET(request: NextRequest) {
 
       return successResponse({
         message: "Email verification completed and registration completed.",
-        status: CONSTANTS.STATUS_CODES.OK,
+        status: API.STATUS_CODES.OK,
         data: {
           user: {
             id: userId,
@@ -152,7 +152,7 @@ export async function GET(request: NextRequest) {
     console.error("Verify email error:", error);
     return errorResponse({
       message: "Server error occurred.",
-      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+      status: API.STATUS_CODES.INTERNAL_SERVER_ERROR,
     });
   }
 }

@@ -1,4 +1,4 @@
-import { CONSTANTS } from "@/constants/constants";
+import { API } from "@/constants";
 import { NextResponse } from "next/server";
 
 export const jsonResponse = <T>({
@@ -23,7 +23,7 @@ export const jsonResponse = <T>({
 
 export const successResponse = <T>({
   message,
-  status = CONSTANTS.STATUS_CODES.OK,
+  status = API.STATUS_CODES.OK,
   data,
 }: {
   message: string;
@@ -35,7 +35,7 @@ export const successResponse = <T>({
 
 export const errorResponse = ({
   message,
-  status = CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+  status = API.STATUS_CODES.INTERNAL_SERVER_ERROR,
 }: {
   message: string;
   status: number;
