@@ -7,6 +7,7 @@ import styles from "./AuthButton.module.css";
 import { useAuthStore } from "@/store/useAuthStore";
 import { UserType } from "@/types/user";
 import { API } from "@/constants";
+import { LogOut, UserRound } from "lucide-react";
 
 export default function AuthButton({
   user: loginUser,
@@ -40,10 +41,11 @@ export default function AuthButton({
       <div className={styles.authContainer}>
         <>
           <Link href={API.ROUTES.USER} className={styles.userName}>
+            <UserRound />
             {user.name}
           </Link>
           <button onClick={handleLogout} className={styles.logoutButton}>
-            Logout
+            <LogOut />
           </button>
         </>
       </div>

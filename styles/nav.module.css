@@ -62,13 +62,12 @@
 
 .nav .input_box button {
   position: absolute;
-  width: 60px;
+  width: 50px;
   height: 100%;
   top: 0;
   right: 0;
   border: none;
   line-height: 1;
-  /* padding: 5px 10px; */
   background-color: rgb(65, 65, 66);
   font-size: 22px;
   color: #fff;

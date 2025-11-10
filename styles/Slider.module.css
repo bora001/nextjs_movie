@@ -74,7 +74,8 @@
 .swiper_prev,
 .swiper_next {
   color: #fff;
-  font-size: 48px;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
   z-index: 999;
 }
@@ -129,7 +130,8 @@
   }
   .swiper_prev,
   .swiper_next {
-    font-size: 4vw;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
   }
 }
@@ -188,7 +190,8 @@
   }
   .swiper_prev,
   .swiper_next {
-    font-size: 4vw;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
   }
 }
@@ -244,7 +247,6 @@
   }
   .swiper_prev,
   .swiper_next {
-    font-size: 6.25vw;
     cursor: pointer;
   }
 }

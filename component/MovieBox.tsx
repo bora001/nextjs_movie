@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/movieList.module.css";
 import { MovieType } from "@/types/movie";
-import { MdOutlineMovieCreation } from "react-icons/md";
+import { Clapperboard } from "lucide-react";
 
 interface MovieBoxPropsType {
   results: MovieType[];
@@ -41,7 +41,7 @@ export default function MovieBox({ results }: MovieBoxPropsType) {
                     />
                   ) : (
                     <div className={styles.movie_poster_empty}>
-                      <MdOutlineMovieCreation size={30} />
+                      <Clapperboard size={40} />
                     </div>
                   )}
                 </div>

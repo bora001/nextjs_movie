@@ -1,9 +1,9 @@
 import MovieBox from "../../../component/MovieBox";
-import { MdManageSearch } from "react-icons/md";
 import axios from "axios";
 import styles from "../../../styles/Home.module.css";
 import { MovieType, MovieListResponseType } from "@/types/movie";
 import { CONFIG } from "@/config/config";
+import { TextSearch } from "lucide-react";
 interface PageProps {
   searchParams: {
     query?: string;
@@ -50,7 +50,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
         <MovieBox results={formattedResults} />
       ) : (
         <div className={styles.not_found}>
-          <MdManageSearch className={styles.icon} />
+          <TextSearch className={styles.icon} />
           <p>No result found</p>
         </div>
       )}

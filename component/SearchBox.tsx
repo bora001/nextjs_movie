@@ -3,7 +3,7 @@
 import { useState, useRef, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/nav.module.css";
-import { MdOutlineSearch } from "react-icons/md";
+import { Search } from "lucide-react";
 
 export default function SearchBox() {
   const router = useRouter();
@@ -49,7 +49,7 @@ export default function SearchBox() {
       />
       <label htmlFor="search_data">
         <button type="button" aria-label="search button">
-          <MdOutlineSearch color="white" onMouseOver={showInput} />
+          <Search onMouseOver={showInput} />
         </button>
       </label>
     </form>

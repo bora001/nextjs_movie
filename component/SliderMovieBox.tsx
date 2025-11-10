@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { EffectCoverflow } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
@@ -11,6 +10,7 @@ import styles from "../styles/Slider.module.css";
 import { MovieType } from "@/types/movie";
 import "swiper/css/effect-coverflow";
 import "swiper/css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SliderMovieBoxPropsType {
   results: MovieType[];
@@ -107,11 +107,12 @@ export default function SliderMovieBox({ results }: SliderMovieBoxPropsType) {
         ))}
       </Swiper>
       <div className={styles.swiper_arrow}>
-        <MdNavigateBefore
+        <ChevronLeft
           className={styles.swiper_prev}
           onClick={() => swiperRef.current?.slidePrev()}
         />
-        <MdNavigateNext
+
+        <ChevronRight
           className={styles.swiper_next}
           onClick={() => swiperRef.current?.slideNext()}
         />
