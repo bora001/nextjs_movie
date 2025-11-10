@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState, useRef, useCallback } from "react";
 import MovieBox from "./MovieBox";
 import { MovieType, MovieListResponseType } from "@/types/movie";
+import { CONSTANTS } from "@/constants/constants";
 
 export default function InfiniteMovieBox() {
   const pathname = usePathname();
@@ -17,7 +18,7 @@ export default function InfiniteMovieBox() {
   const isLoadingRef = useRef<boolean>(false);
 
   const getCategory = useCallback((): string => {
-    const segments = pathname.split("/").filter(Boolean);
+    const segments = pathname.split(CONSTANTS.ROUTES.HOME).filter(Boolean);
     return segments[0] || "popular";
   }, [pathname]);
 
@@ -27,7 +28,7 @@ export default function InfiniteMovieBox() {
     isLoadingRef.current = true;
     try {
       const res = await axios.get<MovieListResponseType>(
-        `/api/movies/${category}/${page}`
+        `${CONSTANTS.ROUTES.API.MOVIES}/${category}/${page}`
       );
       const newData = res.data.results;
 
@@ -51,6 +52,10 @@ export default function InfiniteMovieBox() {
       }
     } catch (error) {
       console.error("Error fetching movies:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        console.error("Error response:", error.response.data);
+        console.error("Error status:", error.response.status);
+      }
       setHasMore(false);
     } finally {
       isLoadingRef.current = false;

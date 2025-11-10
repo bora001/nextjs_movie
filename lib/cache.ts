@@ -1,10 +1,11 @@
+import { CONSTANTS } from "@/constants/constants";
 import { Redis } from "@upstash/redis";
 
 const DEFAULT_TTL = {
-  MOVIE_LIST: 10800, // 3 hour
-  GENRE_LIST: 86400, // 24 hours
-  MOVIE_DETAIL: 21600, // 6 hours
-  SEARCH_RESULTS: 1800, // 30 minutes
+  MOVIE_LIST: CONSTANTS.CACHE_DURATION.MEDIUM_3H,
+  GENRE_LIST: CONSTANTS.CACHE_DURATION.DAILY_1D,
+  MOVIE_DETAIL: CONSTANTS.CACHE_DURATION.LONG_6H,
+  SEARCH_RESULTS: CONSTANTS.CACHE_DURATION.SHORT_30M,
 };
 const redis = Redis.fromEnv();
 export async function getCachedData<T>(key: string): Promise<T | null> {

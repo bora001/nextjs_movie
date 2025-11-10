@@ -27,7 +27,7 @@ export default async function MovieListPage({ params }: PagePropsType) {
   if (
     !CONSTANTS.CATEGORIES[params.category as keyof typeof CONSTANTS.CATEGORIES]
   ) {
-    redirect("/");
+    redirect(CONSTANTS.ROUTES.HOME);
   }
   const API_KEY = process.env.API_KEY;
   const category = params.category;
