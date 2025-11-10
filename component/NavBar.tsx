@@ -17,6 +17,7 @@ export default function NavBar({ user }: { user: UserType | null }) {
         <Link href={API.ROUTES.TOP_RATED}>Top Rated Movies</Link>
         <Link href={API.ROUTES.NOW_PLAYING}>Now Playing</Link>
         <Link href={API.ROUTES.UPCOMING}>Upcoming</Link>
+        {user && <Link href={API.ROUTES.LIKED_MOVIES}>Liked Movies</Link>}
         <AuthButton user={user} />
       </div>
     </div>

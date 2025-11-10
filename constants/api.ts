@@ -8,6 +8,7 @@ export const API = {
     TOP_RATED: "/top_rated",
     NOW_PLAYING: "/now_playing",
     UPCOMING: "/upcoming",
+    LIKED_MOVIES: "/liked-movies",
     API: {
       AUTH: {
         LOGIN: "/api/auth/login",
@@ -21,6 +22,8 @@ export const API = {
         CHANGE_NAME: "/api/auth/change-name",
       },
       MOVIES: "/api/movies",
+      MOVIES_LIKE: "/api/movies/like",
+      MOVIES_LIKED: "/api/movies/liked",
       GENRES: "/api/genres",
     },
   },

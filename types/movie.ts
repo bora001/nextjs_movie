@@ -103,3 +103,14 @@ export interface VideoResponseType {
 export interface GenreResponseType {
   genres: GenreType[];
 }
+
+export interface LikeType {
+  liked: boolean;
+  likeCount: number;
+}
+
+export type LikedMovieType = {
+  userId: string;
+  movieId: number;
+  createdAt: Date;
+};

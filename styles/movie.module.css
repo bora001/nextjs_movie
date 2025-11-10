@@ -26,7 +26,20 @@
 .movie_info {
   position: relative;
 }
+.movie_info_header {
+  display: flex;
+  justify-content: space-between;
+}
+.movie_info_header_left {
+  display: flex;
+  flex-direction: column;
+}
 
+.movie_info_header_right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .movie_info h2 {
   font-size: 26px;
   letter-spacing: 2.5px;
@@ -36,9 +49,6 @@
 }
 
 .movie_info .movie_rate {
-  position: absolute;
-  top: -30px;
-  right: 0;
   width: 50px;
   height: 50px;
   line-height: 50px;
@@ -78,6 +88,35 @@
   background-color: rgb(70, 68, 68);
   cursor: pointer;
   font-size: 12px;
+  font-family: "Kdam Thmor Pro", sans-serif;
+  letter-spacing: 1px;
+}
+
+.like_btn {
+  background-color: rgb(70, 68, 68);
+  transition: background-color 0.3s ease;
+}
+
+.like_btn.liked {
+  background-color: rgb(220, 53, 69);
+}
+
+.like_btn:hover:not(:disabled) {
+  background-color: rgb(90, 88, 88);
+}
+
+.like_btn.liked:hover:not(:disabled) {
+  background-color: rgb(200, 33, 49);
+}
+
+.like_btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.like_count {
+  color: #fff;
+  font-size: 14px;
   font-family: "Kdam Thmor Pro", sans-serif;
   letter-spacing: 1px;
 }
@@ -196,6 +235,17 @@
     letter-spacing: 0.0694vw;
   }
 
+  .like_btn.liked {
+    background-color: rgb(220, 53, 69);
+  }
+
+  .like_count {
+    color: #fff;
+    font-size: 0.9722vw;
+    font-family: "Kdam Thmor Pro", sans-serif;
+    letter-spacing: 0.0694vw;
+  }
+
   .genres_box {
     margin-bottom: 4.1667vw;
   }
@@ -306,6 +356,17 @@
     padding: 1vw 3vw;
     background-color: rgb(70, 68, 68);
     cursor: pointer;
+    font-size: 3.4vw;
+    font-family: "Kdam Thmor Pro", sans-serif;
+    letter-spacing: 0.1302vw;
+  }
+
+  .like_btn.liked {
+    background-color: rgb(220, 53, 69);
+  }
+
+  .like_count {
+    color: #fff;
     font-size: 3.4vw;
     font-family: "Kdam Thmor Pro", sans-serif;
     letter-spacing: 0.1302vw;

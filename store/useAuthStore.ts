@@ -35,8 +35,12 @@ export const useAuthStore = create<AuthState>()(
       fetchUser: async () => {
         try {
           const res = await fetch(API.ROUTES.API.AUTH.ME);
-          const { user } = await res.json();
-          set({ user });
+          const response = await res.json();
+          if (response.success && response.data) {
+            set({ user: response.data.user });
+          } else {
+            set({ user: null });
+          }
         } catch {
           set({ user: null });
         }

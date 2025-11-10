@@ -5,18 +5,30 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import Modal from "../../../component/Modal";
 import styles from "../../../styles/movie.module.css";
-import { MovieDetailType, CreditType } from "@/types/movie";
+import { MovieDetailType, CreditType, LikeType } from "@/types/movie";
+import { API } from "@/constants";
+import { UserType } from "@/types/user";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 interface MovieDetailPropsType {
   detail: MovieDetailType | null;
   credit: CreditType | null;
+  user: UserType | null;
+  like: LikeType | null;
 }
 
-export default function MovieDetail({ detail, credit }: MovieDetailPropsType) {
+export default function MovieDetail({
+  detail,
+  credit,
+  user,
+  like,
+}: MovieDetailPropsType) {
   const [viewCast, setViewCast] = useState<boolean>(false);
   const [viewTrailer, setViewTrailer] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(like?.liked || false);
+  const [likeCount, setLikeCount] = useState<number>(like?.likeCount || 0);
+  const [isLoadingLike, setIsLoadingLike] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.overflow = viewTrailer ? "hidden" : "unset";
@@ -24,6 +36,29 @@ export default function MovieDetail({ detail, credit }: MovieDetailPropsType) {
       document.body.style.overflow = "unset";
     };
   }, [viewTrailer]);
+
+  const handleLikeToggle = async () => {
+    if (!user || !detail || isLoadingLike) return;
+
+    setIsLoadingLike(true);
+    try {
+      const res = await fetch(API.ROUTES.API.MOVIES_LIKE, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ movieId: detail.id }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setIsLiked(data.data.liked);
+        setLikeCount(data.data.likeCount || 0);
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    } finally {
+      setIsLoadingLike(false);
+    }
+  };
 
   if (!detail) {
     return (
@@ -59,18 +94,27 @@ export default function MovieDetail({ detail, credit }: MovieDetailPropsType) {
           </div>
           <div className={styles.movie_box}>
             <div className={styles.movie_info}>
-              <h2>{detail.title}</h2>
-              <div className={styles.genres_box}>
-                {detail.genres?.map((g) => (
-                  <span key={g.id}>{g.name}</span>
-                ))}
+              <div className={styles.movie_info_header}>
+                <div className={styles.movie_info_header_left}>
+                  <h2>{detail.title}</h2>
+                  <div className={styles.genres_box}>
+                    {detail.genres?.map((g) => (
+                      <span key={g.id}>{g.name}</span>
+                    ))}
+                  </div>
+                  <p>{detail.release_date}</p>
+                </div>
+                <div className={styles.movie_info_header_right}>
+                  <p className={styles.movie_rate}>
+                    {detail.vote_average.toFixed(1)}
+                  </p>
+                  <span className={styles.like_count}>
+                    {likeCount > 0 ? `❤️ ${likeCount}` : "🤍 0"}
+                  </span>
+                </div>
               </div>
-
-              <p>{detail.release_date}</p>
-              <p className={styles.movie_rate}>
-                {detail.vote_average.toFixed(1)}
-              </p>
               <p className={styles.desc_txt}>{detail.overview}</p>
+
               <div className={styles.btn_box}>
                 {detail.trailer && (
                   <button
@@ -88,6 +132,18 @@ export default function MovieDetail({ detail, credit }: MovieDetailPropsType) {
                 >
                   View Cast
                 </button>
+                {user && (
+                  <button
+                    className={`${styles.view_cast} ${styles.like_btn} ${
+                      isLiked ? styles.liked : ""
+                    }`}
+                    onClick={handleLikeToggle}
+                    disabled={isLoadingLike}
+                    aria-label={isLiked ? "Unlike movie" : "Like movie"}
+                  >
+                    {isLiked ? "❤️ Liked" : "🤍 Like"}
+                  </button>
+                )}
               </div>
             </div>
             <div className={styles.cast_box}>

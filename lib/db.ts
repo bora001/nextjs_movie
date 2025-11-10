@@ -8,7 +8,7 @@ let client: MongoClient | null = null;
 let db: Db | null = null;
 
 // connect to MongoDB
-async function connectToDatabase(): Promise<Db> {
+export async function connectToDatabase(): Promise<Db> {
   if (db) {
     return db;
   }
