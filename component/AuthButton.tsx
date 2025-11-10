@@ -14,11 +14,14 @@ export default function AuthButton({
   user: UserType | null;
 }) {
   const router = useRouter();
-  const { fetchUser, setUser } = useAuthStore();
+  const { user: storeUser, fetchUser, setUser } = useAuthStore();
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
+
+  // Use store user if available, otherwise fallback to prop user
+  const user = storeUser || loginUser;
 
   const handleLogout = async () => {
     try {
@@ -32,11 +35,13 @@ export default function AuthButton({
     }
   };
 
-  if (loginUser) {
+  if (user) {
     return (
       <div className={styles.authContainer}>
         <>
-          <span className={styles.userName}>{loginUser.name}</span>
+          <Link href={API.ROUTES.USER} className={styles.userName}>
+            {user.name}
+          </Link>
           <button onClick={handleLogout} className={styles.logoutButton}>
             Logout
           </button>

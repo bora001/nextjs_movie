@@ -11,3 +11,11 @@
   z-index: 999999;
   overflow: hidden;
 }
+
+.modal_box {
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+}
