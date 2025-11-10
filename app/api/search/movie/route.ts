@@ -1,7 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { MovieListResponseType } from "@/types/movie";
 import { CacheKeys, CacheTTL } from "@/lib/cache";
 import { withCache } from "@/lib/api-handler";
+import { errorResponse } from "@/lib/response-handler";
+import { CONFIG } from "@/config/config";
+import { CONSTANTS } from "@/constants/constants";
 
 export async function GET(request: NextRequest) {
   const API_KEY = process.env.API_KEY;
@@ -9,10 +12,10 @@ export async function GET(request: NextRequest) {
   const query = searchParams.get("query");
 
   if (!query) {
-    return NextResponse.json(
-      { error: "Query parameter is required" },
-      { status: 400 }
-    );
+    return errorResponse({
+      message: "Query parameter is required",
+      status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+    });
   }
 
   return withCache<MovieListResponseType>({

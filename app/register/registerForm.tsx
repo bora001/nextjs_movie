@@ -36,8 +36,7 @@ const RegisterForm = () => {
     setVerificationLoading(true);
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email || !emailRegex.test(formData.email)) {
+    if (!formData.email || !CONSTANTS.REGEX.EMAIL.test(formData.email)) {
       setError("Please enter a valid email address.");
       setVerificationLoading(false);
       return;

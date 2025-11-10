@@ -3,6 +3,8 @@ import { MovieListResponseType } from "@/types/movie";
 import { CacheKeys, CacheTTL } from "@/lib/cache";
 import { withCache } from "@/lib/api-handler";
 import { CONFIG } from "@/config/config";
+import { errorResponse } from "@/lib/response-handler";
+import { CONSTANTS } from "@/constants/constants";
 interface RouteParams {
   params: {
     category: string;
@@ -14,6 +16,40 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   const API_KEY = process.env.API_KEY;
   const { category, page } = params;
   const pageNum = parseInt(page, 10);
+
+  // Validate environment variables
+  if (!API_KEY) {
+    console.error("API_KEY is not set");
+    return errorResponse({
+      message: "API key is not configured",
+      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+    });
+  }
+
+  if (!CONFIG.MOVIE_URL) {
+    console.error("MOVIE_API_URL is not set");
+    return errorResponse({
+      message: "Movie API URL is not configured",
+      status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR,
+    });
+  }
+
+  // Validate category
+  const validCategories = ["popular", "top_rated", "now_playing", "upcoming"];
+  if (!validCategories.includes(category)) {
+    return errorResponse({
+      message: `Invalid category: ${category}`,
+      status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+    });
+  }
+
+  // Validate page number
+  if (isNaN(pageNum) || pageNum < 1) {
+    return errorResponse({
+      message: `Invalid page number: ${page}`,
+      status: CONSTANTS.STATUS_CODES.BAD_REQUEST,
+    });
+  }
 
   return withCache<MovieListResponseType>({
     cacheKey: CacheKeys.MOVIE_LIST(category, pageNum),

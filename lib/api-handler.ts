@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { getCachedData, setCachedData } from "./cache";
+import { CONSTANTS } from "@/constants/constants";
 
 interface ApiHandlerOptions<T> {
   cacheKey: string;
@@ -50,7 +51,10 @@ export async function withCache<T>(
       }
     }
 
-    return NextResponse.json({ error: detailedError }, { status: 500 });
+    return NextResponse.json(
+      { error: detailedError },
+      { status: CONSTANTS.STATUS_CODES.INTERNAL_SERVER_ERROR }
+    );
   }
 }
 
