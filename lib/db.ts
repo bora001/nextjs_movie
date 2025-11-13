@@ -1,6 +1,8 @@
-import { MongoClient, Db, Collection } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 import { UserType } from "@/types/user";
+import { LikeType } from "@/types/movie";
 import dotenv from "dotenv";
+import { DataBaseType } from "@/types/database";
 
 dotenv.config();
 
@@ -32,17 +34,25 @@ export async function connectToDatabase(): Promise<Db> {
   return db;
 }
 
-// get users-collection
-async function getUsersCollection(): Promise<Collection<UserType>> {
-  const database = await connectToDatabase();
-  return database.collection<UserType>("users");
+// connect and get Database
+export async function connectCollection<K extends keyof DataBaseType>(
+  collectionName: K
+) {
+  try {
+    const database = await connectToDatabase();
+    return database.collection<DataBaseType[K]>(collectionName);
+  } catch (error) {
+    console.error(`Error getting ${String(collectionName)} collection:`, error);
+    throw error;
+  }
 }
 
 // Get user by ID
 export async function getUserById(userId: string): Promise<UserType | null> {
   try {
-    const collection = await getUsersCollection();
-    const user = await collection.findOne(
+    const userCollection = await connectCollection("users");
+    // const collection = await getUsersCollection();
+    const user = await userCollection.findOne(
       { id: userId },
       { projection: { _id: 0, password: 0 } } // _id, password remove
     );
@@ -56,8 +66,8 @@ export async function getUserById(userId: string): Promise<UserType | null> {
 // Get user by email
 export async function getUserByEmail(email: string): Promise<UserType | null> {
   try {
-    const collection = await getUsersCollection();
-    const user = await collection.findOne({ email: email.toLowerCase() });
+    const userCollection = await connectCollection("users");
+    const user = await userCollection.findOne({ email: email.toLowerCase() });
     return user;
   } catch (error) {
     console.error("Error getting user by email:", error);
@@ -68,7 +78,7 @@ export async function getUserByEmail(email: string): Promise<UserType | null> {
 // Create user
 export async function createUser(user: UserType): Promise<boolean> {
   try {
-    const collection = await getUsersCollection();
+    const userCollection = await connectCollection("users");
 
     // Check if email already exists
     const existingUser = await getUserByEmail(user.email);
@@ -77,7 +87,7 @@ export async function createUser(user: UserType): Promise<boolean> {
     }
 
     // Insert user
-    await collection.insertOne(user);
+    await userCollection.insertOne(user);
     return true;
   } catch (error) {
     console.error("Error creating user:", error);
@@ -96,8 +106,8 @@ export async function updateUser(
   updates: Partial<UserType>
 ): Promise<boolean> {
   try {
-    const collection = await getUsersCollection();
-    const result = await collection.updateOne(
+    const userCollection = await connectCollection("users");
+    const result = await userCollection.updateOne(
       { id: userId },
       { $set: updates }
     );
@@ -115,12 +125,7 @@ export async function storeEmailVerificationToken(
   expiryMinutes: number = 60
 ): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const tokensCollection = database.collection<{
-      token: string;
-      email: string;
-      expiresAt: Date;
-    }>("emailVerificationTokens");
+    const tokensCollection = await connectCollection("emailVerificationTokens");
 
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + expiryMinutes);
@@ -153,12 +158,7 @@ export async function getEmailFromVerificationToken(
   token: string
 ): Promise<string | null> {
   try {
-    const database = await connectToDatabase();
-    const tokensCollection = database.collection<{
-      token: string;
-      email: string;
-      expiresAt: Date;
-    }>("emailVerificationTokens");
+    const tokensCollection = await connectCollection("emailVerificationTokens");
 
     const tokenDoc = await tokensCollection.findOne({ token });
     if (!tokenDoc) {
@@ -183,8 +183,7 @@ export async function deleteEmailVerificationToken(
   token: string
 ): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const tokensCollection = database.collection("emailVerificationTokens");
+    const tokensCollection = await connectCollection("emailVerificationTokens");
     const result = await tokensCollection.deleteOne({ token });
     return result.deletedCount > 0;
   } catch (error) {
@@ -196,11 +195,12 @@ export async function deleteEmailVerificationToken(
 // Store verified email (for pre-registration verification)
 export async function storeVerifiedEmail(email: string): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const verifiedEmailsCollection = database.collection<{
-      email: string;
-      verifiedAt: Date;
-    }>("verifiedEmails");
+    const verifiedEmailsCollection = await connectCollection("verifiedEmails");
+    // const database = await connectToDatabase();
+    // const verifiedEmailsCollection = database.collection<{
+    //   email: string;
+    //   verifiedAt: Date;
+    // }>("verifiedEmails");
 
     // Check if already verified
     const existing = await verifiedEmailsCollection.findOne({
@@ -231,11 +231,7 @@ export async function storeVerifiedEmail(email: string): Promise<boolean> {
 // Check if email is verified (for pre-registration verification)
 export async function isEmailVerified(email: string): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const verifiedEmailsCollection = database.collection<{
-      email: string;
-      verifiedAt: Date;
-    }>("verifiedEmails");
+    const verifiedEmailsCollection = await connectCollection("verifiedEmails");
 
     const verified = await verifiedEmailsCollection.findOne({
       email: email.toLowerCase(),
@@ -256,15 +252,9 @@ export async function storePendingRegistration(
   token: string
 ): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const pendingRegistrationsCollection = database.collection<{
-      email: string;
-      name: string;
-      password: string;
-      token: string;
-      createdAt: Date;
-      expiresAt: Date;
-    }>("pendingRegistrations");
+    const pendingRegistrationsCollection = await connectCollection(
+      "pendingRegistrations"
+    );
 
     const expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + 24); // 24 hours expiry
@@ -300,15 +290,9 @@ export async function getPendingRegistrationByToken(
   token: string
 ): Promise<{ email: string; name: string; password: string } | null> {
   try {
-    const database = await connectToDatabase();
-    const pendingRegistrationsCollection = database.collection<{
-      email: string;
-      name: string;
-      password: string;
-      token: string;
-      createdAt: Date;
-      expiresAt: Date;
-    }>("pendingRegistrations");
+    const pendingRegistrationsCollection = await connectCollection(
+      "pendingRegistrations"
+    );
 
     const pending = await pendingRegistrationsCollection.findOne({ token });
     if (!pending) {
@@ -337,10 +321,10 @@ export async function deletePendingRegistration(
   token: string
 ): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const pendingRegistrationsCollection = database.collection(
+    const pendingRegistrationsCollection = await connectCollection(
       "pendingRegistrations"
     );
+
     const result = await pendingRegistrationsCollection.deleteOne({ token });
     return result.deletedCount > 0;
   } catch (error) {
@@ -356,12 +340,7 @@ export async function storeEmailVerificationCode(
   expiryMinutes: number = 10
 ): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const codesCollection = database.collection<{
-      email: string;
-      code: string;
-      expiresAt: Date;
-    }>("emailVerificationCodes");
+    const codesCollection = await connectCollection("emailVerificationCodes");
 
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + expiryMinutes);
@@ -399,12 +378,7 @@ export async function verifyEmailVerificationCode(
   code: string
 ): Promise<boolean> {
   try {
-    const database = await connectToDatabase();
-    const codesCollection = database.collection<{
-      email: string;
-      code: string;
-      expiresAt: Date;
-    }>("emailVerificationCodes");
+    const codesCollection = await connectCollection("emailVerificationCodes");
 
     const codeDoc = await codesCollection.findOne({
       email: email.toLowerCase(),
@@ -427,6 +401,36 @@ export async function verifyEmailVerificationCode(
   } catch (error) {
     console.error("Error verifying email verification code:", error);
     return false;
+  }
+}
+
+// Get like status for a movie (server-side)
+export async function getMovieLikeStatus(
+  movieId: number,
+  userId: string | null
+): Promise<LikeType> {
+  try {
+    const likedMoviesCollection = await connectCollection("likedMovies");
+
+    // Get like count (public information)
+    const likeCount = await likedMoviesCollection.countDocuments({
+      movieId: Number(movieId),
+    });
+
+    // Check if user liked this movie (only if user is logged in)
+    let liked = false;
+    if (userId) {
+      const existingLike = await likedMoviesCollection.findOne({
+        userId: userId,
+        movieId: Number(movieId),
+      });
+      liked = !!existingLike;
+    }
+
+    return { liked, likeCount };
+  } catch (error) {
+    console.error("Error getting movie like status:", error);
+    return { liked: false, likeCount: 0 };
   }
 }
 

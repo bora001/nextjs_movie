@@ -56,6 +56,7 @@ export default function MovieDetail({
   } = useMutationToggleLike(isLiked, detail);
 
   useEffect(() => {
+    // update from client
     if (likeData && likeData) {
       setIsLiked(likeData.liked);
       setLikeCount(likeData.likeCount);

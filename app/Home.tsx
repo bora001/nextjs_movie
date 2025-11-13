@@ -8,6 +8,7 @@ import { useGenreMovies } from "@/lib/api/movie/movie";
 import Center from "@/component/Center";
 import { Clapperboard } from "lucide-react";
 import { CONSTANTS } from "@/constants";
+import LoadingSpinner from "@/component/LoadingSpinner";
 
 interface HomeProps {
   initialResults: MovieType[];
@@ -43,7 +44,7 @@ export default function Home({ initialResults, initialGenres }: HomeProps) {
       <div className={styles.movie_list_box}>
         {isLoading && (
           <Center>
-            <p>Loading movies...</p>
+            <LoadingSpinner />
           </Center>
         )}
         {!isLoading && (

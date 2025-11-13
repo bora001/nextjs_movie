@@ -2,8 +2,7 @@ import { NextRequest } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { errorResponse, successResponse } from "@/lib/response-handler";
 import { API } from "@/constants";
-import { connectToDatabase } from "@/lib/db";
-import { LikedMovieType } from "@/types/movie";
+import { connectCollection } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,10 +25,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const database = await connectToDatabase();
-    const likedMoviesCollection =
-      database.collection<LikedMovieType>("likedMovies");
-
+    const likedMoviesCollection = await connectCollection("likedMovies");
     // Check if movie is already liked
     const existingLike = await likedMoviesCollection.findOne({
       userId: user.id,
@@ -87,9 +83,7 @@ export async function GET(request: NextRequest) {
 
     if (movieId) {
       // Check if specific movie is liked and get like count
-      const database = await connectToDatabase();
-      const likedMoviesCollection =
-        database.collection<LikedMovieType>("likedMovies");
+      const likedMoviesCollection = await connectCollection("likedMovies");
 
       // Get like count (public information)
       const likeCount = await likedMoviesCollection.countDocuments({

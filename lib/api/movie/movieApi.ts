@@ -9,6 +9,7 @@ import {
   VideoResponseType,
 } from "@/types/movie";
 import axios from "axios";
+
 const API_KEY = process.env.API_KEY;
 
 export async function fetchGenreMovies(genreId: number) {
@@ -109,9 +110,10 @@ export const fetchLikedMovies = async (): Promise<MovieType[]> => {
 
 export const fetchToggleLike = async (movieId: number) => {
   try {
-    const response = await axios.post(API.ROUTES.API.MOVIES_LIKE, {
-      movieId,
-    });
+    const response = await axios.post(
+      `${CONFIG.APP_URL}${API.ROUTES.API.MOVIES_LIKE}`,
+      { movieId }
+    );
     return response.data;
   } catch (error) {
     console.error("Failed to toggle like", error);
@@ -135,12 +137,8 @@ export const fetchMovieDetailVideos = async (movieId: string) => {
 export const fetchMovieDetailCredits = async (movieId: string) => {
   try {
     const response = await axios.get<CreditType>(
-      // `${CONFIG.MOVIE_URL}/movie/${movieId}/credits?api_key=${API_KEY}`
       `${CONFIG.APP_URL}/api/movie/${movieId}/credit`
     );
-    // const response = await axios.get<CreditType>(
-    //   `${CONFIG.MOVIE_URL}/movie/${movieId}/credits?api_key=${API_KEY}`
-    // );
     return response.data;
   } catch (error) {
     console.error("Error fetching movie detail credits:", error);

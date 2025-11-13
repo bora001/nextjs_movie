@@ -1,4 +1,3 @@
-import MovieBox from "../../component/MovieBox";
 import InfiniteMovieBox from "../../component/InfiniteMovieBox";
 import styles from "../../styles/movieList.module.css";
 import { MovieType } from "@/types/movie";
@@ -38,7 +37,6 @@ export default async function MovieListPage({ params }: PagePropsType) {
   return (
     <div className={styles.movie_outer_cnt}>
       <h1 className={styles.list_head}>{title} movie</h1>
-      <MovieBox results={results} />
       <InfiniteMovieBox />
     </div>
   );

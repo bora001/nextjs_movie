@@ -1,8 +1,7 @@
 import { getCurrentUser } from "@/lib/auth";
 import { errorResponse, successResponse } from "@/lib/response-handler";
 import { API } from "@/constants";
-import { connectToDatabase } from "@/lib/db";
-import { LikedMovieType } from "@/types/movie";
+import { connectCollection } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -16,10 +15,7 @@ export async function GET() {
         status: API.STATUS_CODES.UNAUTHORIZED,
       });
     }
-
-    const database = await connectToDatabase();
-    const likedMoviesCollection =
-      database.collection<LikedMovieType>("likedMovies");
+    const likedMoviesCollection = await connectCollection("likedMovies");
 
     const likedMovies = await likedMoviesCollection
       .find({ userId: user.id }, { projection: { _id: 0, userId: 0 } })

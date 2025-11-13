@@ -31,3 +31,29 @@ export interface AuthResponse {
   };
   token?: string;
 }
+
+export interface TokenType {
+  token: string;
+  email: string;
+  expiresAt: Date;
+}
+
+export interface VerifiedEmailType {
+  email: string;
+  verifiedAt: Date;
+}
+
+export interface pendingRegisterType {
+  email: string;
+  name: string;
+  password: string;
+  token: string;
+  createdAt: Date;
+  expiresAt: Date;
+}
+
+export interface emailVerificationCodeType {
+  email: string;
+  code: string;
+  expiresAt: Date;
+}
