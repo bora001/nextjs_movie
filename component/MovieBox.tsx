@@ -15,7 +15,7 @@ export default function MovieBox({ results }: MovieBoxPropsType) {
   }
 
   return (
-    <div className={styles.movie_cnt}>
+    <div className={`${styles.movie_cnt} ${styles.movie_grid}`}>
       {results
         .filter((movie) => movie && movie.id)
         .map((movie, index) => {

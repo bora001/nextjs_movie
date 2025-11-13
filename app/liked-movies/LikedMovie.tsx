@@ -12,7 +12,7 @@ export default function LikedMoviesPage() {
   return (
     <div className={styles.movie_outer_cnt}>
       <h1 className={styles.list_head}>Liked Movies</h1>
-      <div className={styles.movie_cnt}>
+      <div className={`${styles.movie_cnt} `}>
         {isLoading ? (
           <LoadingSpinner />
         ) : likedMoviesList && likedMoviesList.length > 0 ? (

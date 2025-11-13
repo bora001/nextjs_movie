@@ -1,5 +1,5 @@
 .movie_outer_cnt {
-  width: fit-content;
+  width: 1300px;
   margin: 0 auto;
 }
 .movie_cnt {
@@ -56,6 +56,8 @@
   background-color: #333131;
 }
 @media screen and (min-width: 769px) and (max-width: 1440px) {
+  .movie_outer_cnt,
+  .movie_outer_cnt,
   .movie_cnt {
     width: 90.2778vw;
   }
@@ -101,11 +103,17 @@
   .movie_outer_cnt {
     width: 90%;
   }
-  .movie_cnt {
+  .movie_grid {
     width: 100%;
     gap: 2vw;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+  }
+  .movie_outer_cnt {
+    width: 90%;
+  }
+  .movie_cnt {
+    width: 100%;
   }
 
   .movie_box {

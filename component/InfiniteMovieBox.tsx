@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import MovieBox from "./MovieBox";
 import { API } from "@/constants";
 import { useInfiniteMovieList } from "@/lib/api/movie/movie";
+import Loading from "./Loading";
 
 export default function InfiniteMovieBox() {
   const pathname = usePathname();
@@ -23,11 +24,7 @@ export default function InfiniteMovieBox() {
   }, [data]);
 
   if (isLoading) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
-        <h4>Loading...</h4>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
