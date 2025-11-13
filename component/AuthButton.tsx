@@ -44,9 +44,7 @@ export default function AuthButton({
             <UserRound />
             {user.name}
           </Link>
-          <button onClick={handleLogout} className={styles.logoutButton}>
-            <LogOut />
-          </button>
+          <LogOut onClick={handleLogout} className={styles.logoutButton} />
         </>
       </div>
     );

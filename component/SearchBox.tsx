@@ -1,17 +1,23 @@
 "use client";
 
-import { useState, useRef, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "../styles/nav.module.css";
 import { Search } from "lucide-react";
 
 export default function SearchBox() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query");
   const inputValue = useRef<HTMLInputElement>(null);
-  const [inputVisible, setInputVisible] = useState<boolean>(false);
 
-  const searchMovie = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (query && inputValue.current) {
+      inputValue.current.value = query;
+    }
+  }, [query]);
+
+  const searchMovie = async () => {
     const query = inputValue.current?.value;
 
     if (query && query.length > 0) {
@@ -21,37 +27,30 @@ export default function SearchBox() {
       }
     }
   };
-
-  const showInput = () => {
-    setInputVisible(true);
-    setTimeout(() => {
-      inputValue.current?.focus();
-    }, 1100);
-  };
-
-  const hideInput = () => {
-    const query = inputValue.current?.value;
-    setInputVisible(!!(query && query.length > 0));
+  const enterKeyBoard = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      searchMovie();
+    }
   };
 
   return (
-    <form
-      className={styles.input_box}
-      onSubmit={searchMovie}
-      onMouseLeave={hideInput}
-    >
+    <div className={styles.input_cnt}>
       <input
+        onKeyDown={(e) => enterKeyBoard(e)}
         type="text"
-        className={inputVisible ? `${styles.input_visible}` : ""}
         ref={inputValue}
         id="search_data"
         placeholder="Search movies"
       />
       <label htmlFor="search_data">
-        <button type="button" aria-label="search button">
-          <Search onMouseOver={showInput} />
+        <button
+          type="button"
+          aria-label="search button"
+          onClick={() => searchMovie()}
+        >
+          <Search />
         </button>
       </label>
-    </form>
+    </div>
   );
 }
