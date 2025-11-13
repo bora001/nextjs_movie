@@ -9,14 +9,17 @@
 - Infinite scroll Movie List
 - Deploy via Vercel
 
-## v1.0.0 (Upcoming / Planned Update)
+## v1.0.0 (Current Release)
 
 - React Query Integration & Redis Caching
-- TypeScript Integration
+- **JavaScript → TypeScript Migration**
+- **Next.js Page Router → App Router Migration**
+- **MongoDB Integration**
 - Add Feature
   - Like Feature
   - User Registration & Login (with Email Verification)
   - User Personalization Features
+  - User Account Deletion (Account Withdrawal) (v1.1.0)
 
 ## Key Features
 
