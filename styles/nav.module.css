@@ -3,7 +3,7 @@
   width: 100%;
   display: flex;
   top: 0;
-  z-index: 99;
+  z-index: 9999;
   align-items: center;
   justify-content: space-between;
   background-color: rgb(22, 21, 21);
@@ -11,7 +11,7 @@
   margin: 0 auto 30px;
 }
 
-.nav .nav_menu {
+.nav .nav_content {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -19,16 +19,19 @@
   width: 100%;
 }
 
-.nav .nav_menu a {
+.nav .nav_content a {
   padding: 10px;
   font-size: 16px;
   text-decoration: none;
   font-family: "Kdam Thmor Pro", sans-serif;
+  color: #fff;
 }
-.nav .nav_menu a:hover {
+
+.nav .nav_content a:hover {
   transition: 0.3s;
   color: rgb(29, 201, 135);
 }
+
 .nav .input_cnt {
   position: relative;
   display: flex;
@@ -68,30 +71,112 @@
   transform: translateZ(0);
 }
 
+/* Mobile Menu Button */
+.mobile_menu_button {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 100;
+}
+
+.mobile_menu_button:hover {
+  color: rgb(29, 201, 135);
+  transition: 0.3s;
+}
+
+/* Mobile Menu Overlay */
+.mobile_menu_overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+/* Mobile Menu */
+.mobile_menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background-color: rgb(22, 21, 21);
+  z-index: 9999;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.mobile_menu_open {
+  right: 0;
+}
+
+.mobile_menu_content {
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px 20px;
+  gap: 20px;
+}
+
+.mobile_menu_content a {
+  padding: 15px;
+  font-size: 18px;
+  text-decoration: none;
+  font-family: "Kdam Thmor Pro", sans-serif;
+  color: #fff;
+  border-bottom: 1px solid rgb(51, 49, 49);
+  transition: 0.3s;
+}
+
+.mobile_actions {
+  margin-top: 10px;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 @media screen and (min-width: 769px) and (max-width: 1440px) {
   .nav {
     padding: 1.3889vw;
     margin: 0 auto 2.0833vw;
   }
 
-  .nav .nav_menu a {
+  .nav .nav_content a {
     padding: 0.6944vw;
     font-size: 1.1111vw;
   }
 }
+
 @media screen and (max-width: 768px) {
   .nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgb(22, 21, 21);
-    padding: 2.6042vw;
-    margin: 1vw auto 3.9063vw;
+    padding: 15px;
+    margin: 0 auto 20px;
   }
 
-  .nav .nav_menu a {
-    padding: 0vw;
-    margin: 1vw;
-    font-size: 3.2vw;
+  .nav_content {
+    display: none !important;
+  }
+
+  .mobile_menu_button {
+    display: block;
+  }
+
+  .mobile_menu {
+    display: block;
+  }
+
+  .mobile_menu_overlay {
+    display: block;
+  }
+
+  .mobile_actions .input_cnt input {
+    width: 100%;
   }
 }

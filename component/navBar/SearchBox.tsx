@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { KeyboardEvent, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import styles from "../styles/nav.module.css";
+import styles from "../../styles/nav.module.css";
 import { Search } from "lucide-react";
 
 export default function SearchBox() {
@@ -12,8 +12,8 @@ export default function SearchBox() {
   const inputValue = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (query && inputValue.current) {
-      inputValue.current.value = query;
+    if (inputValue.current) {
+      inputValue.current.value = query || "";
     }
   }, [query]);
 
@@ -27,7 +27,7 @@ export default function SearchBox() {
       }
     }
   };
-  const enterKeyBoard = (e: KeyboardEvent) => {
+  const enterKeyBoard = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       searchMovie();
     }

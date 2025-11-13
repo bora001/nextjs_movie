@@ -73,10 +73,16 @@
   font-size: 16px;
 }
 
-.successMessage p:first-child {
+.successMessage_title {
   font-size: 20px;
   font-weight: 600;
   color: #4caf50;
+}
+
+.successMessage_info {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
 }
 
 .redirectText {
@@ -121,4 +127,37 @@
 
 .link:hover {
   text-decoration: underline;
+}
+.verified_code_box {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.verify_code_button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+.verify_button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+.verified {
+  color: green;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.verified_code {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.email_box {
+  display: flex;
+  gap: 10px;
 }

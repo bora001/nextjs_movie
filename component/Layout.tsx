@@ -1,5 +1,5 @@
 import { UserType } from "@/types/user";
-import NavBar from "./NavBar";
+import NavBar from "./navBar/NavBar";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 

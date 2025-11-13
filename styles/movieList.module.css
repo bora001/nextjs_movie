@@ -98,20 +98,24 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .movie_outer_cnt {
+    width: 90%;
+  }
   .movie_cnt {
-    width: 100vw;
+    width: 100%;
+    gap: 2vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .movie_box {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    width: 49vw;
+    width: 100%;
   }
 
   .movie_poster {
     width: 100%;
-    height: 48.8281vw;
     border: none;
   }
   .movie_poster:hover {
@@ -120,14 +124,14 @@
   }
 
   .movie_title {
-    width: 45vw;
+    width: 100%;
     word-wrap: break-word;
     height: auto;
     font-size: 3.4vw;
   }
   .movie_rate {
-    top: -2vw;
-    right: 5vw;
+    top: -1vw;
+    right: 1vw;
     font-size: 3.4vw;
     width: 7vw;
     height: 7vw;

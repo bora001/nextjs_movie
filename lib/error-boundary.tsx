@@ -2,7 +2,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode, Suspense } from "react";
 import { UserType } from "@/types/user";
-import NavBar from "@/component/NavBar";
+import NavBar from "@/component/navBar/NavBar";
 import Center from "@/component/Center";
 import { Construction } from "lucide-react";
 import LoadingSpinner from "@/component/LoadingSpinner";

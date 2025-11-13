@@ -1,4 +1,4 @@
-import RegisterForm from "./registerForm";
+import RegisterForm from "./RegisterForm";
 
 import { withAuthGuard } from "@/component/hoc/withAuthGuard";
 

@@ -178,12 +178,14 @@ const RegisterForm = () => {
 
         {success ? (
           <div className={styles.successMessage}>
-            <p>Registration information received!</p>
+            <p className={styles.successMessage_title}>
+              Registration information received!
+            </p>
             <p>
               Please check your email to verify your account and complete
               registration.
             </p>
-            <p style={{ fontSize: "14px", color: "#666", marginTop: "10px" }}>
+            <p className={styles.successMessage_info}>
               After clicking the verification link in your email, your
               registration will be completed.
             </p>
@@ -194,13 +196,7 @@ const RegisterForm = () => {
 
             <div className={styles.formGroup}>
               <label htmlFor="email">Email</label>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "flex-start",
-                }}
-              >
+              <div className={styles.email_box}>
                 <input
                   type="email"
                   id="email"
@@ -224,17 +220,14 @@ const RegisterForm = () => {
                   disabled={
                     verificationLoading || emailVerified || !formData.email
                   }
+                  className={styles.verify_code_button}
                   style={{
-                    padding: "10px 20px",
+                    whiteSpace: "nowrap",
                     backgroundColor: emailVerified ? "#ccc" : "#0070f3",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
                     cursor:
                       emailVerified || !formData.email
                         ? "not-allowed"
                         : "pointer",
-                    whiteSpace: "nowrap",
                   }}
                 >
                   {verificationLoading
@@ -245,24 +238,14 @@ const RegisterForm = () => {
                 </button>
               </div>
               {emailVerified && (
-                <span
-                  style={{ color: "green", fontSize: "12px", marginTop: "5px" }}
-                >
-                  ✓ Email verified
-                </span>
+                <span className={styles.verified}>✓ Email verified</span>
               )}
             </div>
 
             {verificationCodeSent && !emailVerified && (
               <div className={styles.formGroup}>
                 <label htmlFor="verificationCode">Verification Code</label>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div className={styles.verified_code_box}>
                   <input
                     type="text"
                     id="verificationCode"
@@ -279,12 +262,8 @@ const RegisterForm = () => {
                     disabled={
                       verifyingCode || formData.verificationCode.length !== 6
                     }
+                    className={styles.verify_button}
                     style={{
-                      padding: "10px 20px",
-                      backgroundColor: "#28a745",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
                       cursor:
                         verifyingCode || formData.verificationCode.length !== 6
                           ? "not-allowed"
@@ -295,9 +274,7 @@ const RegisterForm = () => {
                     {verifyingCode ? "Verifying..." : "Verify"}
                   </button>
                 </div>
-                <p
-                  style={{ fontSize: "12px", color: "#666", marginTop: "5px" }}
-                >
+                <p className={styles.verified_code}>
                   Enter the 6-digit code sent to your email
                 </p>
               </div>

@@ -36,7 +36,7 @@ export default async function MovieListPage({ params }: PagePropsType) {
   results = await fetchMovieList(category);
 
   return (
-    <div className={styles.movie_cnt}>
+    <div className={styles.movie_outer_cnt}>
       <h1 className={styles.list_head}>{title} movie</h1>
       <MovieBox results={results} />
       <InfiniteMovieBox />
