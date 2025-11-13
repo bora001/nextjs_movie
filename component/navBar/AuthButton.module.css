@@ -1,0 +1,77 @@
+.authContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.loading {
+  color: #999;
+  font-size: 14px;
+}
+
+.userName {
+  display: flex;
+  gap: 5px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.userName:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.unverified {
+  color: #ff9800;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.logoutButton {
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.loginLink,
+.registerLink {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.loginLink {
+  color: #fff;
+}
+
+.registerLink {
+  background-color: #667eea;
+  color: white;
+}
+
+.registerLink:hover {
+  background-color: #5568d3;
+}
+
+@media screen and (max-width: 768px) {
+  .authContainer {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .loginLink,
+  .registerLink,
+  .logoutButton {
+    width: 100%;
+    text-align: center;
+  }
+}

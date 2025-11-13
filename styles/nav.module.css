@@ -1,63 +1,145 @@
 .nav {
-  position: relative;
+  position: sticky;
+  width: 100%;
   display: flex;
+  top: 0;
+  z-index: 9999;
+  align-items: center;
   justify-content: space-between;
   background-color: rgb(22, 21, 21);
   padding: 20px;
   margin: 0 auto 30px;
 }
 
-.nav .nav_menu a {
+.nav .nav_content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.nav .nav_content a {
   padding: 10px;
   font-size: 16px;
   text-decoration: none;
   font-family: "Kdam Thmor Pro", sans-serif;
+  color: #fff;
 }
-.nav .input_box {
-  position: absolute;
-  display: block;
-  top: 25%;
-  right: 1%;
-  overflow: hidden;
-  font-size: 16px;
-  width: 250px;
-  height: 30px;
+
+.nav .nav_content a:hover {
+  transition: 0.3s;
+  color: rgb(29, 201, 135);
 }
-.nav .input_box input {
-  position: absolute;
+
+.nav .input_cnt {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.nav .input_cnt input {
   font-family: "Kdam Thmor Pro", sans-serif;
   border: none;
-  float: right;
+  width: 200px;
+  padding: 3px 10px;
   background-color: rgb(51, 49, 49);
   color: #fff;
   font-weight: 200;
-  transform: translate(+100%);
-  padding: 5px 0;
-  width: 0;
-  transition: 1s;
-}
-.nav .input_box input.input_visible {
-  transition: 1s;
-  text-indent: 10px;
-  width: auto;
-  transform: translate(0%);
+  transition: none;
 }
 
-.nav .input_box button {
+.nav .input_cnt button {
   position: absolute;
-  width: 60px;
+  width: 50px;
   height: 100%;
   top: 0;
   right: 0;
   border: none;
   line-height: 1;
-  /* padding: 5px 10px; */
   background-color: rgb(65, 65, 66);
   font-size: 22px;
   color: #fff;
   cursor: pointer;
   z-index: 9999;
   font-family: "Kdam Thmor Pro", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  pointer-events: auto;
+  transform: translateZ(0);
+}
+
+/* Mobile Menu Button */
+.mobile_menu_button {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 100;
+}
+
+.mobile_menu_button:hover {
+  color: rgb(29, 201, 135);
+  transition: 0.3s;
+}
+
+/* Mobile Menu Overlay */
+.mobile_menu_overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+/* Mobile Menu */
+.mobile_menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background-color: rgb(22, 21, 21);
+  z-index: 9999;
+  transition: right 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.mobile_menu_open {
+  right: 0;
+}
+
+.mobile_menu_content {
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px 20px;
+  gap: 20px;
+}
+
+.mobile_menu_content a {
+  padding: 15px;
+  font-size: 18px;
+  text-decoration: none;
+  font-family: "Kdam Thmor Pro", sans-serif;
+  color: #fff;
+  border-bottom: 1px solid rgb(51, 49, 49);
+  transition: 0.3s;
+}
+
+.mobile_actions {
+  margin-top: 10px;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 @media screen and (min-width: 769px) and (max-width: 1440px) {
@@ -66,74 +148,35 @@
     margin: 0 auto 2.0833vw;
   }
 
-  .nav .nav_menu a {
+  .nav .nav_content a {
     padding: 0.6944vw;
     font-size: 1.1111vw;
   }
-  .nav .input_box {
-    font-size: 1.1111vw;
-    width: 17.3611vw;
-    height: 2.4vw;
-  }
-  .nav .input_box input {
-    padding: 0.3472vw 0;
-    font-size: 1.1111vw;
-  }
-  .nav .input_box input.input_visible {
-    text-indent: 0.6944vw;
-  }
-
-  .nav .input_box button {
-    width: 4.7vw;
-    font-size: 1.5vw;
-    padding: 0.3472vw 0.6944vw;
-  }
 }
+
 @media screen and (max-width: 768px) {
   .nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgb(22, 21, 21);
-    padding: 2.6042vw;
-    margin: 1vw auto 3.9063vw;
+    padding: 15px;
+    margin: 0 auto 20px;
   }
 
-  .nav .nav_menu a {
-    padding: 0vw;
-    margin: 1vw;
-    font-size: 3.2vw;
+  .nav_content {
+    display: none !important;
   }
 
-  .nav .input_box {
-    display: flex;
-    width: auto;
-    align-items: center;
-    top: -10%;
-    right: 4%;
-    height: 8vw;
-    margin: 2vw auto 0;
-  }
-  .nav .input_box input {
-    position: relative;
-    padding: 0.651vw 0;
-    font-size: 3.5vw;
-    width: 22vw !important;
-    height: 5vw;
-    line-height: 1;
-    transform: none;
-    text-indent: 1vw;
+  .mobile_menu_button {
+    display: block;
   }
 
-  .nav .input_box button {
-    position: relative;
-    width: 8vw;
-    height: 8vw;
-    line-height: 8vw;
-    padding: 0;
-    margin: 0;
-    font-size: 3.5vw;
-    z-index: 9999;
-    background-color: transparent;
+  .mobile_menu {
+    display: block;
+  }
+
+  .mobile_menu_overlay {
+    display: block;
+  }
+
+  .mobile_actions .input_cnt input {
+    width: 100%;
   }
 }

@@ -1,3 +1,7 @@
+.movie_outer_cnt {
+  width: 1300px;
+  margin: 0 auto;
+}
 .movie_cnt {
   width: 1300px;
   margin: 0 auto;
@@ -42,7 +46,18 @@
   text-shadow: 2px 2px 3px rgba(17, 15, 15, 0.616);
   font-family: "Kdam Thmor Pro", sans-serif;
 }
+
+.movie_poster_empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #333131;
+}
 @media screen and (min-width: 769px) and (max-width: 1440px) {
+  .movie_outer_cnt,
+  .movie_outer_cnt,
   .movie_cnt {
     width: 90.2778vw;
   }
@@ -85,20 +100,30 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .movie_outer_cnt {
+    width: 90%;
+  }
+  .movie_grid {
+    width: 100%;
+    gap: 2vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .movie_outer_cnt {
+    width: 90%;
+  }
   .movie_cnt {
-    width: 100vw;
+    width: 100%;
   }
 
   .movie_box {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    width: 49vw;
+    width: 100%;
   }
 
   .movie_poster {
     width: 100%;
-    height: 48.8281vw;
     border: none;
   }
   .movie_poster:hover {
@@ -107,14 +132,14 @@
   }
 
   .movie_title {
-    width: 45vw;
+    width: 100%;
     word-wrap: break-word;
     height: auto;
     font-size: 3.4vw;
   }
   .movie_rate {
-    top: -2vw;
-    right: 5vw;
+    top: -1vw;
+    right: 1vw;
     font-size: 3.4vw;
     width: 7vw;
     height: 7vw;

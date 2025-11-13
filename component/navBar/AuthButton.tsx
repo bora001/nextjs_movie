@@ -1,0 +1,64 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import styles from "./AuthButton.module.css";
+import { useAuthStore } from "@/store/useAuthStore";
+import { UserType } from "@/types/user";
+import { API } from "@/constants";
+import { LogOut, UserRound } from "lucide-react";
+import { fetchLogout } from "@/lib/api/auth/authApi";
+
+export default function AuthButton({
+  user: loginUser,
+}: {
+  user: UserType | null;
+}) {
+  const router = useRouter();
+  const { user: storeUser, fetchUser, setUser } = useAuthStore();
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  // Use store user if available, otherwise fallback to prop user
+  const user = storeUser || loginUser;
+
+  const handleLogout = async () => {
+    try {
+      await fetchLogout();
+      setUser(null);
+      fetchUser();
+      router.push(API.ROUTES.HOME);
+      router.refresh();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  if (user) {
+    return (
+      <div className={styles.authContainer}>
+        <>
+          <Link href={API.ROUTES.USER} className={styles.userName}>
+            <UserRound />
+            {user.name}
+          </Link>
+          <LogOut onClick={handleLogout} className={styles.logoutButton} />
+        </>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.authContainer}>
+      <Link href={API.ROUTES.LOGIN} className={styles.loginLink}>
+        Login
+      </Link>
+      <Link href={API.ROUTES.REGISTER} className={styles.registerLink}>
+        Register
+      </Link>
+    </div>
+  );
+}

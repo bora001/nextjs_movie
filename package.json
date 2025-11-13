@@ -1,7 +1,10 @@
 {
-  "name": "nextjs_practice",
-  "version": "0.1.0",
+  "name": "nextjs_movie",
+  "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,22 +12,39 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.7",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^7.0.3",
+    "@upstash/redis": "^1.35.6",
     "axios": "^0.27.2",
-    "next": "12.1.6",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.553.0",
+    "mongodb": "^6.20.0",
+    "next": "^14.0.0",
     "next-redux-wrapper": "^7.0.5",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-icons": "^4.4.0",
+    "nodemailer": "^7.0.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-error-boundary": "^6.0.0",
+    "react-hot-toast": "^2.6.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-player": "^2.10.1",
     "react-redux": "^8.0.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
-    "swiper": "^8.2.2"
+    "swiper": "^8.2.2",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@types/node": "20.19.24",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "eslint": "8.15.0",
-    "eslint-config-next": "12.1.6"
+    "eslint-config-next": "^14.0.0",
+    "typescript": "^5.0.0"
   }
 }
