@@ -109,6 +109,15 @@ export interface LikeType {
   likeCount: number;
 }
 
+export type LikeApiResponse = {
+  message: string;
+  status: number;
+  data: {
+    liked: boolean;
+    likeCount: number;
+  };
+};
+
 export type LikedMovieType = {
   userId: string;
   movieId: number;

@@ -5,30 +5,41 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import Modal from "../../../component/Modal";
 import styles from "../../../styles/movie.module.css";
-import { MovieDetailType, CreditType, LikeType } from "@/types/movie";
-import { API } from "@/constants";
+import { LikeType, MovieType, VideoType } from "@/types/movie";
 import { UserType } from "@/types/user";
+import {
+  useMovieDetailCredits,
+  useMovieDetailLike,
+  useMutationToggleLike,
+} from "@/lib/api/movie/movie";
+import { useQueryClient } from "@tanstack/react-query";
+import { CONFIG } from "@/config/config";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 interface MovieDetailPropsType {
-  detail: MovieDetailType | null;
-  credit: CreditType | null;
+  detail: MovieType | null;
   user: UserType | null;
   like: LikeType | null;
+  trailer: VideoType | null;
 }
 
 export default function MovieDetail({
   detail,
-  credit,
   user,
   like,
+  trailer,
 }: MovieDetailPropsType) {
   const [viewCast, setViewCast] = useState<boolean>(false);
   const [viewTrailer, setViewTrailer] = useState<boolean>(false);
-  const [isLiked, setIsLiked] = useState<boolean>(like?.liked || false);
   const [likeCount, setLikeCount] = useState<number>(like?.likeCount || 0);
-  const [isLoadingLike, setIsLoadingLike] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(like?.liked || false);
+  const queryClient = useQueryClient();
+  const { data: credit } = useMovieDetailCredits(
+    detail?.id?.toString() || null
+  );
+
+  const { data: likeData } = useMovieDetailLike(detail?.id?.toString() || null);
 
   useEffect(() => {
     document.body.style.overflow = viewTrailer ? "hidden" : "unset";
@@ -37,27 +48,30 @@ export default function MovieDetail({
     };
   }, [viewTrailer]);
 
-  const handleLikeToggle = async () => {
-    if (!user || !detail || isLoadingLike) return;
+  const {
+    mutate: toggleLike,
+    isPending: isLoadingLike,
+    isSuccess: isSuccessToggleLike,
+  } = useMutationToggleLike(isLiked, detail);
 
-    setIsLoadingLike(true);
-    try {
-      const res = await fetch(API.ROUTES.API.MOVIES_LIKE, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ movieId: detail.id }),
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        setIsLiked(data.data.liked);
-        setLikeCount(data.data.likeCount || 0);
-      }
-    } catch (error) {
-      console.error("Error toggling like:", error);
-    } finally {
-      setIsLoadingLike(false);
+  useEffect(() => {
+    if (likeData && likeData) {
+      setIsLiked(likeData.liked);
+      setLikeCount(likeData.likeCount);
     }
+  }, [likeData]);
+
+  useEffect(() => {
+    if (isSuccessToggleLike) {
+      queryClient.invalidateQueries({
+        queryKey: ["movieDetailLike", detail?.id?.toString() || null],
+      });
+    }
+  }, [detail?.id, isSuccessToggleLike, queryClient]);
+
+  const handleLikeToggle = () => {
+    if (!user || !detail || isLoadingLike) return;
+    toggleLike(detail);
   };
 
   if (!detail) {
@@ -76,7 +90,7 @@ export default function MovieDetail({
           <div className="img_box">
             <div className={styles.img_poster}>
               <Image
-                src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
+                src={`${CONFIG.MOVIE_IMAGE_URL}${detail.poster_path}`}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt={`${detail.title} poster image1`}
@@ -87,7 +101,7 @@ export default function MovieDetail({
               <Image
                 fill
                 sizes="(max-width: 768px) 0px, (max-width: 1440px) 34.7222vw, 500px"
-                src={`https://image.tmdb.org/t/p/w500${detail.backdrop_path}`}
+                src={`${CONFIG.MOVIE_IMAGE_URL}${detail.backdrop_path}`}
                 alt={`${detail.title} poster image2`}
               />
             </div>
@@ -116,7 +130,7 @@ export default function MovieDetail({
               <p className={styles.desc_txt}>{detail.overview}</p>
 
               <div className={styles.btn_box}>
-                {detail.trailer && (
+                {trailer && (
                   <button
                     className={styles.view_cast}
                     onClick={() => setViewTrailer(!viewTrailer)}
@@ -162,13 +176,12 @@ export default function MovieDetail({
                         style={{
                           objectFit: "cover",
                           objectPosition: "center",
-                          transform: "scale(0.9)",
                           filter: "brightness(0.85)",
                         }}
                         src={
                           cast.profile_path
-                            ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
-                            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                            ? `${CONFIG.MOVIE_IMAGE_URL}${cast.profile_path}`
+                            : "/empty-profile.webp"
                         }
                       />
                     </div>
@@ -182,11 +195,11 @@ export default function MovieDetail({
           </div>
         </div>
       )}
-      {viewTrailer && detail.trailer && (
+      {viewTrailer && trailer && (
         <Modal>
           <ReactPlayer
             className={styles.youtube_edit}
-            url={`https://www.youtube.com/watch?v=${detail.trailer.key}`}
+            url={`https://www.youtube.com/watch?v=${trailer.key}`}
             playing={true}
             controls={false}
           />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "../styles/movieList.module.css";
 import { MovieType } from "@/types/movie";
 import { Clapperboard } from "lucide-react";
+import { CONFIG } from "@/config/config";
 
 interface MovieBoxPropsType {
   results: MovieType[];
@@ -19,10 +20,12 @@ export default function MovieBox({ results }: MovieBoxPropsType) {
         .filter((movie) => movie && movie.id)
         .map((movie, index) => {
           const posterPath =
-            movie.poster_path ||
-            (movie.backdrop_path
-              ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
-              : null);
+            movie.poster_path || movie.backdrop_path
+              ? `${CONFIG.MOVIE_IMAGE_URL}${
+                  movie.poster_path || movie.backdrop_path
+                }`
+              : null;
+
           return (
             <Link href={`/movie/${movie.id}`} key={movie.id}>
               <div className={styles.movie_box}>

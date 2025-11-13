@@ -11,6 +11,7 @@ import { MovieType } from "@/types/movie";
 import "swiper/css/effect-coverflow";
 import "swiper/css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CONFIG } from "@/config/config";
 
 interface SliderMovieBoxPropsType {
   results: MovieType[];
@@ -85,7 +86,7 @@ export default function SliderMovieBox({ results }: SliderMovieBoxPropsType) {
                   }
                 >
                   <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    src={`${CONFIG.MOVIE_IMAGE_URL}${movie.poster_path}`}
                     alt={`${movie.title} image`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

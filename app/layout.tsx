@@ -2,6 +2,7 @@ import Layout from "../component/Layout";
 import "../styles/globals.css";
 import { ReactNode } from "react";
 import { getCurrentUser } from "@/lib/auth";
+import ReactQueryProvider from "@/lib/react-query-provider";
 
 export const metadata = {
   title: "Nextjs_movie Project",
@@ -14,10 +15,13 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   const user = await getCurrentUser();
+
   return (
     <html lang="en">
       <body>
-        <Layout user={user}>{children}</Layout>
+        <ReactQueryProvider user={user}>
+          <Layout user={user}>{children}</Layout>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -1,6 +1,12 @@
 .main_box {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+.movie_list_box {
+  position: relative;
+  min-height: 300px;
+  width: 100%;
 }
 .btn_box {
   width: 600px;

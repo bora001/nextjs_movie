@@ -1,3 +1,7 @@
+.movie_outer_cnt {
+  width: fit-content;
+  margin: 0 auto;
+}
 .movie_cnt {
   width: 1300px;
   margin: 0 auto;

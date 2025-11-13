@@ -1,5 +1,6 @@
 export const CACHE = {
   CACHE_DURATION: {
+    VERY_SHORT_1M: 60, // 1 minute
     SHORT_30M: 1800, // 30 minutes
     MEDIUM_3H: 10800, // 3 hours
     LONG_6H: 21600, // 6 hours

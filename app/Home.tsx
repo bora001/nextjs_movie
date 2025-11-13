@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState, MouseEvent } from "react";
-import axios from "axios";
+import { useState, MouseEvent } from "react";
 import SliderMovieBox from "../component/SliderMovieBox";
 import styles from "../styles/Home.module.css";
-import { MovieType, GenreType, MovieListResponseType } from "@/types/movie";
-import { API } from "@/constants";
+import { MovieType, GenreType } from "@/types/movie";
+import { useGenreMovies } from "@/lib/api/movie/movie";
+import Center from "@/component/Center";
+import { Clapperboard } from "lucide-react";
+import { CONSTANTS } from "@/constants";
 
 interface HomeProps {
   initialResults: MovieType[];
@@ -13,42 +15,51 @@ interface HomeProps {
 }
 
 export default function Home({ initialResults, initialGenres }: HomeProps) {
-  const [movieList, setMovieList] = useState<MovieType[]>(initialResults || []);
+  const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
   const [keyword, setKeyword] = useState<string>("");
-  const [genres] = useState<GenreType[]>(initialGenres || []);
+  const { data: genreMovies, isLoading } = useGenreMovies(selectedGenreId);
 
-  useEffect(() => {
-    setMovieList(initialResults || []);
-    setKeyword("");
-  }, [initialResults]);
+  const movieList =
+    selectedGenreId === null ? initialResults : genreMovies || [];
+  const genres = initialGenres || [];
 
-  const setGenre = async (e: MouseEvent<HTMLButtonElement>) => {
-    try {
-      const query = Number(e.currentTarget.value);
-      const response = await axios.get<MovieListResponseType>(
-        `${API.ROUTES.API.GENRES}/${query}`
-      );
-      const { results } = response.data;
-      setMovieList(results);
-      setKeyword(e.currentTarget.innerText);
-    } catch (error) {
-      console.error("Error fetching genre movies:", error);
-    }
+  const setGenre = (e: MouseEvent<HTMLButtonElement>) => {
+    const genreId = Number(e.currentTarget.value);
+    setSelectedGenreId(genreId);
+    setKeyword(e.currentTarget.innerText);
   };
 
   const setAll = () => {
-    setMovieList(initialResults || []);
+    setSelectedGenreId(null);
     setKeyword("");
   };
 
   return (
-    <div className={styles.main_box}>
+    <div
+      className={styles.main_box}
+      style={{ height: `calc(100vh - ${CONSTANTS.NAV_HEIGHT * 2}px)` }}
+    >
       <h2 className={styles.title_txt}>Popular {keyword} Movies</h2>
-      {movieList.length > 0 ? (
-        <SliderMovieBox results={movieList} />
-      ) : (
-        <p>Loading movies...</p>
-      )}
+      <div className={styles.movie_list_box}>
+        {isLoading && (
+          <Center>
+            <p>Loading movies...</p>
+          </Center>
+        )}
+        {!isLoading && (
+          <>
+            {movieList.length > 0 ? (
+              <SliderMovieBox results={movieList} />
+            ) : (
+              <Center type="center">
+                <Clapperboard size={32} />
+                <p>No movies found</p>
+              </Center>
+            )}
+          </>
+        )}
+      </div>
+
       <div className={styles.btn_box}>
         {genres && (
           <button onClick={setAll} aria-label="Show all movies">

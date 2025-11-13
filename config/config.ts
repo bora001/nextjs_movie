@@ -9,4 +9,5 @@ export const CONFIG = {
   },
   APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   JWT_SECRET: process.env.JWT_SECRET || "your-secret-key-change-in-production",
+  MOVIE_IMAGE_URL: process.env.NEXT_PUBLIC_MOVIE_IMAGE || "",
 };
