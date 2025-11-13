@@ -11,6 +11,7 @@ import {
   fetchSendVerification,
   fetchVerifyCode,
 } from "@/lib/api/auth/authApi";
+import { getAxiosErrorMessage } from "@/lib/axios-error-handler";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -54,7 +55,9 @@ const RegisterForm = () => {
       );
 
       if (!response.success) {
-        setError(response.message || "Failed to send verification code.");
+        setError(
+          getAxiosErrorMessage(error, "Failed to send verification code")
+        );
         setVerificationLoading(false);
         return;
       }
@@ -62,7 +65,7 @@ const RegisterForm = () => {
       setVerificationCodeSent(true);
       setVerificationLoading(false);
     } catch (err) {
-      setError("Server error occurred. Please try again.");
+      setError(getAxiosErrorMessage(error));
       setVerificationLoading(false);
     }
   };
