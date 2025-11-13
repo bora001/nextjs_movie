@@ -13,6 +13,8 @@ import crypto from "crypto";
 import { errorResponse, successResponse } from "@/lib/response-handler";
 import { API } from "@/constants";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;

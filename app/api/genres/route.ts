@@ -3,6 +3,8 @@ import { CacheKeys, CacheTTL } from "@/lib/cache";
 import { withCache } from "@/lib/api-handler";
 import { CONFIG } from "@/config/config";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const API_KEY = process.env.API_KEY;
   return withCache<GenreResponseType>({

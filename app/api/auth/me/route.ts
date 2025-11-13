@@ -2,6 +2,8 @@ import { API } from "@/constants";
 import { getCurrentUser } from "@/lib/auth";
 import { errorResponse, successResponse } from "@/lib/response-handler";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const user = await getCurrentUser();

@@ -4,6 +4,8 @@ import { API } from "@/constants";
 import { connectToDatabase } from "@/lib/db";
 import { LikedMovieType } from "@/types/movie";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const user = await getCurrentUser();
