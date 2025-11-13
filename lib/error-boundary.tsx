@@ -6,6 +6,7 @@ import NavBar from "@/component/NavBar";
 import Center from "@/component/Center";
 import { Construction } from "lucide-react";
 import LoadingSpinner from "@/component/LoadingSpinner";
+import Button from "@/component/Button";
 
 export const ErrorBoundaryProvider = ({
   children,
@@ -26,7 +27,7 @@ export const ErrorBoundaryProvider = ({
             <Center type="center">
               <Construction size={32} />
               <p>There was an error! {error.message}</p>
-              <button onClick={() => resetErrorBoundary()}>Try again</button>
+              <Button onClick={() => resetErrorBoundary()} text="Try again" />
             </Center>
           </div>
         );

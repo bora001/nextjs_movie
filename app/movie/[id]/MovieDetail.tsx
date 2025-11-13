@@ -14,6 +14,7 @@ import {
 } from "@/lib/api/movie/movie";
 import { useQueryClient } from "@tanstack/react-query";
 import { CONFIG } from "@/config/config";
+import Button from "@/component/Button";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -131,32 +132,24 @@ export default function MovieDetail({
 
               <div className={styles.btn_box}>
                 {trailer && (
-                  <button
-                    className={styles.view_cast}
+                  <Button
                     onClick={() => setViewTrailer(!viewTrailer)}
-                    aria-label="View trailer"
-                  >
-                    View Trailer
-                  </button>
+                    text="View Trailer"
+                  />
                 )}
-                <button
-                  className={styles.view_cast}
+                <Button
                   onClick={() => setViewCast(!viewCast)}
-                  aria-label="View cast"
-                >
-                  View Cast
-                </button>
+                  text="View Cast"
+                />
                 {user && (
-                  <button
+                  <Button
                     className={`${styles.view_cast} ${styles.like_btn} ${
                       isLiked ? styles.liked : ""
                     }`}
                     onClick={handleLikeToggle}
                     disabled={isLoadingLike}
-                    aria-label={isLiked ? "Unlike movie" : "Like movie"}
-                  >
-                    {isLiked ? "❤️ Liked" : "🤍 Like"}
-                  </button>
+                    text={isLiked ? "❤️ Liked" : "🤍 Like"}
+                  />
                 )}
               </div>
             </div>
