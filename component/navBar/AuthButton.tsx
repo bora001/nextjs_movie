@@ -8,6 +8,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { UserType } from "@/types/user";
 import { API } from "@/constants";
 import { LogOut, UserRound } from "lucide-react";
+import { fetchLogout } from "@/lib/api/auth/authApi";
 
 export default function AuthButton({
   user: loginUser,
@@ -26,7 +27,7 @@ export default function AuthButton({
 
   const handleLogout = async () => {
     try {
-      await fetch(API.ROUTES.API.AUTH.LOGOUT, { method: "POST" });
+      await fetchLogout();
       setUser(null);
       fetchUser();
       router.push(API.ROUTES.HOME);

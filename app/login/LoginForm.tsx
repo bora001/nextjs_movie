@@ -6,6 +6,7 @@ import Link from "next/link";
 import styles from "./login.module.css";
 import { CONSTANTS } from "@/constants/constants";
 import { API } from "@/constants";
+import { fetchLogin } from "@/lib/api/auth/authApi";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -38,18 +39,9 @@ export const LoginForm = () => {
     }
 
     try {
-      const response = await fetch(API.ROUTES.API.AUTH.LOGIN, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setError(data.message || "Login failed.");
+      const response = await fetchLogin(JSON.stringify(formData));
+      if (!response.success || !response.data) {
+        setError(response.message || "Login failed.");
         setLoading(false);
         return;
       }

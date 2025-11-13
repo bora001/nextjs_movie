@@ -131,7 +131,6 @@
 .verified_code_box {
   display: flex;
   gap: 10px;
-  align-items: flex-start;
 }
 .verify_code_button {
   padding: 10px 20px;

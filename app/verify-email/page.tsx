@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import styles from "./verify-email.module.css";
 import { API } from "@/constants";
+import { fetchVerifyEmail } from "@/lib/api/auth/authApi";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
@@ -26,14 +27,11 @@ export default function VerifyEmailPage() {
       }
 
       try {
-        const response = await fetch(
-          `${API.ROUTES.API.AUTH.VERIFY_EMAIL}?token=${token}`
-        );
-        const data = await response.json();
+        const response = await fetchVerifyEmail(token);
 
-        if (response.ok && data.success) {
+        if (response.success && response.data) {
           setStatus(API.API_STATUS.SUCCESS);
-          setMessage(data.message || "Email verification completed!");
+          setMessage(response.message || "Email verification completed!");
 
           // Redirect to home after verification
           setTimeout(() => {
@@ -41,7 +39,7 @@ export default function VerifyEmailPage() {
           }, 3000);
         } else {
           setStatus(API.API_STATUS.ERROR);
-          setMessage(data.message || "Email verification failed.");
+          setMessage(response.message || "Email verification failed.");
         }
       } catch (err) {
         setStatus(API.API_STATUS.ERROR);

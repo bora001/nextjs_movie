@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Modal from "@/component/Modal";
 import styles from "./user.module.css";
-import { API } from "@/constants";
 import { useAuthStore } from "@/store/useAuthStore";
 import toast from "react-hot-toast";
 import { UserType } from "@/types/user";
+import { fetchChangeName } from "@/lib/api/auth/authApi";
 
 interface NameFormModalProps {
   isOpen: boolean;
@@ -80,20 +80,12 @@ export default function NameFormModal({
     }
 
     try {
-      const response = await fetch(API.ROUTES.API.AUTH.CHANGE_NAME, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: trimmedName,
-        }),
-      });
+      const response = await fetchChangeName(
+        JSON.stringify({ name: trimmedName })
+      );
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setNameError(data.message || "Failed to change name.");
+      if (!response.success || !response.data) {
+        setNameError(response.message || "Failed to change name.");
         setLoading(false);
         return;
       }
@@ -105,10 +97,10 @@ export default function NameFormModal({
       setLoading(false);
 
       // Update user state with the updated user information from response
-      if (data.data?.user) {
-        setUser(data.data.user);
+      if (response.data?.user) {
+        setUser(response.data.user);
         if (onSuccess) {
-          onSuccess(data.data.user);
+          onSuccess(response.data.user);
         }
       } else {
         // Fallback: refresh user data from server

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Modal from "@/component/Modal";
 import styles from "./user.module.css";
-import { API } from "@/constants";
 import toast from "react-hot-toast";
+import { fetchChangePassword } from "@/lib/api/auth/authApi";
 
 interface PasswordFormModalProps {
   isOpen: boolean;
@@ -82,21 +82,15 @@ export default function PasswordFormModal({
     }
 
     try {
-      const response = await fetch(API.ROUTES.API.AUTH.CHANGE_PASSWORD, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchChangePassword(
+        JSON.stringify({
           currentPassword: passwordFormData.currentPassword,
           newPassword: passwordFormData.newPassword,
-        }),
-      });
+        })
+      );
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setPasswordError(data.message || "Failed to change password.");
+      if (!response.success) {
+        setPasswordError(response.message || "Failed to change password.");
         setLoading(false);
         return;
       }

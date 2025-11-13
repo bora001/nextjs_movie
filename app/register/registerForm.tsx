@@ -6,6 +6,11 @@ import Link from "next/link";
 import styles from "./register.module.css";
 import { CONSTANTS } from "@/constants/constants";
 import { API, REGEX } from "@/constants";
+import {
+  fetchRegisterUser,
+  fetchSendVerification,
+  fetchVerifyCode,
+} from "@/lib/api/auth/authApi";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -44,18 +49,12 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(API.ROUTES.API.AUTH.SEND_VERIFICATION_CODE, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: formData.email }),
-      });
+      const response = await fetchSendVerification(
+        JSON.stringify({ email: formData.email })
+      );
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setError(data.message || "Failed to send verification code.");
+      if (!response.success) {
+        setError(response.message || "Failed to send verification code.");
         setVerificationLoading(false);
         return;
       }
@@ -79,21 +78,15 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(API.ROUTES.API.AUTH.VERIFY_CODE, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchVerifyCode(
+        JSON.stringify({
           email: formData.email,
           code: formData.verificationCode,
-        }),
-      });
+        })
+      );
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setError(data.message || "Invalid verification code.");
+      if (!response.success) {
+        setError(response.message || "Invalid verification code.");
         setVerifyingCode(false);
         return;
       }
@@ -137,22 +130,16 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(API.ROUTES.API.AUTH.REGISTER, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await fetchRegisterUser(
+        JSON.stringify({
           email: formData.email,
           name: formData.name,
           password: formData.password,
-        }),
-      });
+        })
+      );
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setError(data.message || "Registration failed.");
+      if (!response.success) {
+        setError(response.message || "Registration failed.");
         setLoading(false);
         return;
       }

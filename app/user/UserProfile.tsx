@@ -10,6 +10,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { CONSTANTS } from "@/constants/constants";
 import PasswordFormModal from "./PasswordFormModal";
 import NameFormModal from "./NameFormModal";
+import { fetchLogout } from "@/lib/api/auth/authApi";
 
 interface UserProfileProps {
   user: UserType;
@@ -29,7 +30,7 @@ export default function UserProfile({ user }: UserProfileProps) {
     setError("");
 
     try {
-      await fetch(API.ROUTES.API.AUTH.LOGOUT, { method: "POST" });
+      await fetchLogout();
       setUser(null);
       fetchUser();
       router.push(API.ROUTES.HOME);

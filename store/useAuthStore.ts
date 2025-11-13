@@ -1,4 +1,4 @@
-import { API } from "@/constants";
+import { fetchUserInfo } from "@/lib/api/auth/authApi";
 import { create } from "zustand";
 import { PersistStorage } from "zustand/middleware";
 import { persist } from "zustand/middleware";
@@ -34,8 +34,7 @@ export const useAuthStore = create<AuthState>()(
       setUser: (user) => set({ user }),
       fetchUser: async () => {
         try {
-          const res = await fetch(API.ROUTES.API.AUTH.ME);
-          const response = await res.json();
+          const response = await fetchUserInfo();
           if (response.success && response.data) {
             set({ user: response.data.user });
           } else {
