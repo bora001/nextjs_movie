@@ -20,6 +20,7 @@ export const API = {
         REGISTER: "/api/auth/register",
         CHANGE_PASSWORD: "/api/auth/change-password",
         CHANGE_NAME: "/api/auth/change-name",
+        DELETE: "/api/auth/delete",
       },
       MOVIES: "/api/movies",
       MOVIES_LIKE: "/api/movies/like",

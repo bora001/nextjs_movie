@@ -10,7 +10,8 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { CONSTANTS } from "@/constants/constants";
 import PasswordFormModal from "./PasswordFormModal";
 import NameFormModal from "./NameFormModal";
-import { fetchLogout } from "@/lib/api/auth/authApi";
+import { fetchDeleteUser } from "@/lib/api/auth/authApi";
+import { getAxiosErrorMessage } from "@/lib/axios-error-handler";
 
 interface UserProfileProps {
   user: UserType;
@@ -24,25 +25,31 @@ export default function UserProfile({ user }: UserProfileProps) {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [showNameForm, setShowNameForm] = useState(false);
   const [currentUser, setCurrentUser] = useState<UserType>(user);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const handleLogout = async () => {
+  const handleNameSuccess = (updatedUser: UserType) => {
+    setCurrentUser(updatedUser);
+  };
+
+  const handleDeleteAccount = async () => {
     setLoading(true);
     setError("");
 
     try {
-      await fetchLogout();
+      await fetchDeleteUser();
       setUser(null);
       fetchUser();
       router.push(API.ROUTES.HOME);
       router.refresh();
     } catch (err) {
-      setError("Logout failed. Please try again.");
+      const errorMessage = getAxiosErrorMessage(
+        err,
+        "Failed to delete account. Please try again."
+      );
+      setError(errorMessage);
       setLoading(false);
+      setShowDeleteConfirm(false);
     }
-  };
-
-  const handleNameSuccess = (updatedUser: UserType) => {
-    setCurrentUser(updatedUser);
   };
 
   return (
@@ -85,16 +92,16 @@ export default function UserProfile({ user }: UserProfileProps) {
           </div>
 
           <div className={styles.actionsSection}>
-            <button
-              onClick={handleLogout}
-              className={styles.logoutButton}
-              disabled={loading}
-            >
-              {loading ? "Logging out..." : "Logout"}
-            </button>
             <Link href={API.ROUTES.HOME} className={styles.homeLink}>
               Back to Home
             </Link>
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className={styles.deleteButton}
+              disabled={loading}
+            >
+              Delete Account
+            </button>
           </div>
         </div>
       </div>
@@ -110,6 +117,43 @@ export default function UserProfile({ user }: UserProfileProps) {
         currentName={currentUser.name}
         onSuccess={handleNameSuccess}
       />
+
+      {showDeleteConfirm && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => !loading && setShowDeleteConfirm(false)}
+        >
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>Delete Account</h2>
+            </div>
+            <p className={styles.deleteWarning}>
+              Are you sure you want to delete your account? This action cannot
+              be undone. All your data, including liked movies, will be
+              permanently deleted.
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                onClick={handleDeleteAccount}
+                className={styles.confirmDeleteButton}
+                disabled={loading}
+              >
+                {loading ? "Deleting..." : "Yes, Delete Account"}
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className={styles.cancelButton}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

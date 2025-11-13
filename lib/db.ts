@@ -118,6 +118,24 @@ export async function updateUser(
   }
 }
 
+// Delete user and all associated data
+export async function deleteUser(userId: string): Promise<boolean> {
+  try {
+    const userCollection = await connectCollection("users");
+    const likedMoviesCollection = await connectCollection("likedMovies");
+
+    // Delete all liked movies for this user
+    await likedMoviesCollection.deleteMany({ userId });
+
+    // Delete the user
+    const result = await userCollection.deleteOne({ id: userId });
+    return result.deletedCount > 0;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return false;
+  }
+}
+
 // store email verification token to separate collection
 export async function storeEmailVerificationToken(
   email: string,

@@ -110,3 +110,15 @@ export async function fetchUserInfo() {
     throw error;
   }
 }
+
+export async function fetchDeleteUser() {
+  try {
+    const response = await axios.post(
+      `${CONFIG.APP_URL}${API.ROUTES.API.AUTH.DELETE}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
+  }
+}
