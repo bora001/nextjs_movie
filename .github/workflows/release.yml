@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run release
+
+      - name: Verify Tag Creation
+        if: success()
+        run: |
+          echo "Checking for newly created tags..."
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$LATEST_TAG" ]; then
+            echo "✅ Latest tag: $LATEST_TAG"
+            git show-ref --tags | grep "$LATEST_TAG"
+          else
+            echo "ℹ️ No tags found (this might be the first release or no release was created)"
+          fi
+
+      - name: List All Tags
+        if: success()
+        run: |
+          echo "📋 All tags in repository:"
+          git tag -l --sort=-v:refname | head -10 || echo "No tags found"

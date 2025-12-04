@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "release": "semantic-release"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.7",
@@ -40,11 +41,15 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.6",
     "@types/node": "20.19.24",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "eslint": "8.15.0",
     "eslint-config-next": "^14.0.0",
+    "semantic-release": "^24.2.9",
     "typescript": "^5.0.0"
   }
 }
